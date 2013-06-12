@@ -26,7 +26,7 @@ var directionsService = new google.maps.DirectionsService();
 // set up last-minute UI
 $(document).ready(function(){
   // line up bottom of the map with bottom of the window
-  $("#map").height( $("#map").height() - $("#map").offset().top );
+  $("#map").height( screen.height - $("#map").offset().top );
 
   // set up search
   $("#addsearch").keypress(function(e){
