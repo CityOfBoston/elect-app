@@ -12,16 +12,13 @@ var mapOptions = {
   zoom: 14,
   mapTypeId: google.maps.MapTypeId.ROADMAP,
   streetViewControl: false,
+  mapTypeControl: false,
   zoomControlOptions: {
     style: google.maps.ZoomControlStyle.SMALL
   }
 };
 var map = new google.maps.Map( $("#map")[0], mapOptions);
-var geocoder = new google.maps.Geocoder();
 var infoWindow = new google.maps.InfoWindow();
-var directionsDisplay = new google.maps.DirectionsRenderer();
-directionsDisplay.setMap(map);
-var directionsService = new google.maps.DirectionsService();
 
 // set up last-minute UI
 $(document).ready(function(){
@@ -39,20 +36,27 @@ $(document).ready(function(){
 
 // set up polling place info
 var visiblePrecincts = [ ];
+var selectMarker = null;
 var pollMarkers = { };
 
 // set up directions info
 var directionsFrom = null;
+var geocoder = new google.maps.Geocoder();
+var directionsDisplay = new google.maps.DirectionsRenderer();
+directionsDisplay.setMap(map);
+var directionsService = new google.maps.DirectionsService();
 
 // tap to close window AND/OR taps to find polling place
 google.maps.event.addListener(map, "click", function(e){
   infoWindow.close();
 });
+/*
 google.maps.event.addListener(map, "dblclick", function(e){
   var lat = e.latLng.lat();
   var lng = e.latLng.lng();
   findPrecinctAndPoll( new google.maps.LatLng( lat, lng ) );
 });
+*/
 
 // load and map all polling places
 var s = document.createElement("script");
@@ -69,8 +73,7 @@ function loadPollingPlaces(polldata){
     var lat = poll.geometry.y;
     var lng = poll.geometry.x;
     var pollMarker = new google.maps.Marker({
-      position: new google.maps.LatLng( lat, lng ),
-      map: map
+      position: new google.maps.LatLng( lat, lng )
     });
     pollMarkers[ poll.attributes.POLLINGID ] = { marker: pollMarker, poll: poll };
     
@@ -174,6 +177,12 @@ function mapPrecinctPolygons(precinctData){
 }
 
 function findPrecinctAndPoll( latlng ){
+  // hide last search
+  if(selectMarker){
+    selectMarker.setMap(null);
+  }
+
+  // search for precinct matching this latlng
   var s = document.createElement("script");
   s.type = "text/javascript";
   s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll";
@@ -200,10 +209,14 @@ function showPollMarker( lookupData ){
   var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
   infoWindow.setContent( content );
   infoWindow.open( map, pollMarkers[ pollingID ].marker );
+
+  selectMarker = pollMarkers[ pollingID ].marker;
+  selectMarker.setMap(map);
   
   if(directionsFrom){
     // show directions from stored point to the poll
     showDirections(directionsFrom, pollMarkers[ pollingID ].marker.getPosition() );
+    directionsFrom = null;
   }
 }
 
@@ -221,11 +234,14 @@ function showDirections(startll, endll){
 }
 
 function searchAddress(){
+  // if not specified, tell Google that this address is inside the city
   var searched = $("#addsearch").val();
   if(searched.toLowerCase().indexOf("boston") == -1){
     searched += ", Boston, MA";
   }
   console.log(searched);
+  
+  // use Google geocoder
   geocoder.geocode( { 'address': searched }, function(results, status){
     if(status == google.maps.GeocoderStatus.OK && results.length){
       directionsFrom = results[0].geometry.location;
