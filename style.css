@@ -1,0 +1,18 @@
+html, body, #map, .ui-page-active, .ui-body{
+  height: 100%;
+  width: 100%;
+  overflow: none;
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+.nowrap{
+  white-space: nowrap !important;
+}
+#topbar{
+  text-align: center;
+  height: 35px;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
