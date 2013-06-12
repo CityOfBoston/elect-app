@@ -7,8 +7,12 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   </head>
   <body>
-    <div data-role="header">
-      <h1>Search Area</h1>
+    <div id="topbar" data-role="header">
+      <strong>Polling Place</strong
+      <div data-role="fieldcontain">
+        <label for="search-mini">Location for:</label>
+        <input id="addsearch" type="search" name="search-mini" id="search" value="" x-webkit-speech speech onwebkitspeechchange="searchAddress();" onspeechchange="searchAddress();"/>
+      </div>
     </div>
     <div data-role="content" class="ui-body">
       <div id="map">

@@ -9,10 +9,6 @@ html, body, #map, .ui-page-active, .ui-body{
 .nowrap{
   white-space: nowrap !important;
 }
-#topbar{
-  text-align: center;
-  height: 35px;
-  width: 100%;
-  margin: 0;
-  padding: 10px;
+.ui-input-search{
+  width: 80%;
 }

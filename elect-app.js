@@ -17,12 +17,32 @@ var mapOptions = {
   }
 };
 var map = new google.maps.Map( $("#map")[0], mapOptions);
+var geocoder = new google.maps.Geocoder();
 var infoWindow = new google.maps.InfoWindow();
+var directionsDisplay = new google.maps.DirectionsRenderer();
+directionsDisplay.setMap(map);
+var directionsService = new google.maps.DirectionsService();
+
+// set up last-minute UI
+$(document).ready(function(){
+  // line up bottom of the map with bottom of the window
+  $("#map").height( $("#map").height() - $("#map").offset().top );
+
+  // set up search
+  $("#addsearch").keypress(function(e){
+    if(e.keyCode == 13){
+      // pressed enter
+      searchAddress();
+    }
+  });
+});
 
 // set up polling place info
-
 var visiblePrecincts = [ ];
 var pollMarkers = { };
+
+// set up directions info
+var directionsFrom = null;
 
 // tap to close window AND/OR taps to find polling place
 google.maps.event.addListener(map, "click", function(e){
@@ -35,7 +55,6 @@ google.maps.event.addListener(map, "dblclick", function(e){
 });
 
 // load and map all polling places
-
 var s = document.createElement("script");
 s.type = "text/javascript";
 s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&outFields=*&outSR=4326&callback=loadPollingPlaces";
@@ -98,11 +117,11 @@ function findPrecinct(lookupData){
   // look up precinct geometry
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?where=PRECINCTID%3D%27" + precinctIDs + "%27&outSR=4326&outFields=*&f=json&returnGeometry=true&callback=showPrecincts";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?where=PRECINCTID%3D%27" + precinctIDs + "%27&outSR=4326&outFields=*&f=json&returnGeometry=true&callback=mapPrecinctPolygons";
   $(document.body).append(s);
 }
 
-function showPrecincts(precinctData){
+function mapPrecinctPolygons(precinctData){
 
   // clear old precincts
   if(visiblePrecincts.length){
@@ -154,8 +173,15 @@ function showPrecincts(precinctData){
   }
 }
 
+function findPrecinctAndPoll( latlng ){
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll";
+  $(document.body).append(s);
+}
+
 function showPrecinctAndPoll( precinctData ){
-  showPrecincts( precinctData );
+  mapPrecinctPolygons( precinctData );
 
   // look up polling place by precinct ID
   // this lookup table step is needed to connect a polling place to its precinct
@@ -174,11 +200,36 @@ function showPollMarker( lookupData ){
   var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
   infoWindow.setContent( content );
   infoWindow.open( map, pollMarkers[ pollingID ].marker );
+  
+  if(directionsFrom){
+    // show directions from stored point to the poll
+    showDirections(directionsFrom, pollMarkers[ pollingID ].marker.getPosition() );
+  }
 }
 
-function findPrecinctAndPoll( latlng ){
-  var s = document.createElement("script");
-  s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll";
-  $(document.body).append(s);
+function showDirections(startll, endll){
+  var request = {
+    origin: startll,
+    destination: endll,
+    travelMode: google.maps.DirectionsTravelMode.WALKING
+  };
+  directionsService.route(request, function(result, status){
+    if(status == google.maps.DirectionsStatus.OK){
+      directionsDisplay.setDirections(result);
+    }
+  });
+}
+
+function searchAddress(){
+  var searched = $("#addsearch").val();
+  if(searched.toLowerCase().indexOf("boston") == -1){
+    searched += ", Boston, MA";
+  }
+  console.log(searched);
+  geocoder.geocode( { 'address': searched }, function(results, status){
+    if(status == google.maps.GeocoderStatus.OK && results.length){
+      directionsFrom = results[0].geometry.location;
+      findPrecinctAndPoll( results[0].geometry.location );
+    }
+  });
 }
