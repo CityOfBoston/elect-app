@@ -23,7 +23,12 @@ var infoWindow = new google.maps.InfoWindow();
 // set up last-minute UI
 $(document).ready(function(){
   // line up bottom of the map with bottom of the window
-  $("#map").height( screen.height - $("#map").offset().top );
+  //$("#map").height( screen.height - $("#map").offset().top );
+  
+  // ensure clear button on search bar works
+  $("#topbar .ui-icon-delete").click(function(e){
+    $("#addsearch").val("");
+  });
 
   // set up search
   $("#addsearch").keypress(function(e){
@@ -42,11 +47,13 @@ var pollMarkers = { };
 // set up directions info
 var directionsFrom = null;
 var geocoder = new google.maps.Geocoder();
-var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
 directionsDisplay.setMap(map);
 var directionsService = new google.maps.DirectionsService();
 var displayEntrance = null;
-var mydestination;
+var mydestination = null;
+var startmarker = null;
+var myTravelMode = null;
 
 // tap to close window AND/OR taps to find polling place
 google.maps.event.addListener(map, "click", function(e){
@@ -252,6 +259,9 @@ function showPoll(polldata){
   }
 
   var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
+  if(poll.attributes.Voter_Entrance){
+    content += poll.attributes.Voter_Entrance.toLowerCase();
+  }
   infoWindow.setContent( content );
   infoWindow.open( map, pollMarkers[ pollingID ].marker );
 
@@ -268,20 +278,37 @@ function showPoll(polldata){
   if(directionsFrom){
     // show directions from stored point to the poll
     showDirections(directionsFrom, pollMarkers[ pollingID ].marker.getPosition() );
-    directionsFrom = null;
   }
 }
 
 function showDirections(startll, endll){
   mydestination = endll;
+  var travel = google.maps.DirectionsTravelMode.WALKING;
+  if(myTravelMode){
+    if(myTravelMode == "transit"){
+      travel = google.maps.DirectionsTravelMode.TRANSIT;
+    }
+    else if(myTravelMode == "drive"){
+      travel = google.maps.DirectionsTravelMode.DRIVING;
+    }
+  }
   var request = {
     origin: startll,
     destination: endll,
-    travelMode: google.maps.DirectionsTravelMode.WALKING
+    travelMode: travel
   };
+  if(startmarker){
+    startmarker.setMap(null);
+  }
   directionsService.route(request, function(result, status){
     if(status == google.maps.DirectionsStatus.OK){
       directionsDisplay.setDirections(result);
+      startmarker = new google.maps.Marker({
+        map: map,
+        clickable: false,
+        icon: 'http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=%20&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
+        position: result.routes[0].legs[0].start_location
+      });
     }
   });
 }
@@ -307,7 +334,20 @@ function fromHere(){
   // recalculate directions from current location
   navigator.geolocation.getCurrentPosition(function(position){
     $('.ui-dialog').dialog('close');
-    var myloc = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
-    showDirections(myloc, mydestination );
+    directionsFrom = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
+    showDirections(directionsFrom, mydestination);
   });
+}
+
+function travelMode(){
+  // determine user's travel mode
+  var modes = $(".transitmode");
+  for(var m=0;m<modes.length;m++){
+    if(modes[m].checked && modes[m].value != myTravelMode){
+      $('.ui-dialog').dialog('close');
+      myTravelMode = modes[m].value;
+      showDirections( directionsFrom, mydestination );
+      return;
+    }
+  }
 }

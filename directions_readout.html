@@ -11,6 +11,14 @@
         <button id="fromhere" onclick="fromHere()">From Here</button>
       </div>
       <div data-role="content" data-theme="d">
+        <fieldset data-role="controlgroup" data-mini="true">
+          <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-1" value="walk" checked="checked" onchange="travelMode()"/>
+          <label for="mode-mini-1">Walk</label>
+          <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-2" value="transit" onchange="travelMode()"/>
+          <label for="mode-mini-2">Transit</label>
+          <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-3" value="drive" onchange="travelMode()"/>
+          <label for="mode-mini-3">Drive</label>
+        </fieldset>
         <div id="directions_readout">
         </div>
         <h1 id="entrance"></h1>
@@ -20,14 +28,27 @@
           if(displayEntrance){
             displayEntrance();
           }
+          if(myTravelMode){
+            var modes = $(".transitmode");
+            for(var m=0;m<modes.length;m++){
+              if(modes[m].value == myTravelMode){
+                modes[m].checked = true;
+              }
+              else{
+                modes[m].checked = false;
+              }
+            }
+          }
           // if this browser cannot geolocate, remove button
           if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
             $("#fromhere").css({ display: "none" }); 
           }
         </script>
         <hr/>
+        <!--
         <a data-role="button" data-theme="b" href="officials.html">My Officials</a>
-        <a data-role="button" data-rel="back" data-theme="c" href="officials.html">Close</a>
+        -->
+        <a data-role="button" data-rel="back" data-theme="c" href="#">Close</a>
       </div>
     </div>
   </body>
