@@ -45,6 +45,7 @@ var geocoder = new google.maps.Geocoder();
 var directionsDisplay = new google.maps.DirectionsRenderer();
 directionsDisplay.setMap(map);
 var directionsService = new google.maps.DirectionsService();
+var displayEntrance = null;
 
 // tap to close window AND/OR taps to find polling place
 google.maps.event.addListener(map, "click", function(e){
@@ -186,6 +187,7 @@ function findPrecinctAndPoll( latlng ){
   // hide last search
   if(selectMarker){
     selectMarker.setMap(null);
+    displayEntrance = null;
   }
 
   // search for precinct matching this latlng
@@ -211,6 +213,7 @@ function showPrecinctAndPoll( precinctData ){
 function showPollMarker( lookupData ){
   if(selectMarker){
     selectMarker.setMap(null);
+    displayEntrance = null;
   }
 
   var pollingID = lookupData.features[0].attributes.POLLINGID;  
@@ -255,6 +258,11 @@ function showPoll(polldata){
   selectMarker.setMap(map);
   
   $("#moreinfo").css({ visibility: "visible" });
+  if(poll.attributes.Voter_Entrance){
+    displayEntrance = function(){
+      $("#entrance").text( poll.attributes.Voter_Entrance.toLowerCase() );
+    };
+  }
   
   if(directionsFrom){
     // show directions from stored point to the poll

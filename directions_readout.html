@@ -12,8 +12,12 @@
       <div data-role="content" data-theme="d">
         <div id="directions_readout">
         </div>
+        <h1 id="entrance"></h1>
         <script type="text/javascript">
           directionsDisplay.setPanel( $("#directions_readout")[0] );
+          if(displayEntrance){
+            displayEntrance();
+          }
         </script>
         <hr/>
         <a data-role="button" data-theme="b" href="officials.html">My Officials</a>
