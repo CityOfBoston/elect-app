@@ -8,15 +8,21 @@
     <div data-role="page">
       <div data-role="header" data-theme="d" data-position="inline">
         <h1>Directions</h1>
+        <button id="fromhere" onclick="fromHere()">From Here</button>
       </div>
       <div data-role="content" data-theme="d">
         <div id="directions_readout">
         </div>
         <h1 id="entrance"></h1>
         <script type="text/javascript">
+          // once this popup loads, attempt to fill directions readout
           directionsDisplay.setPanel( $("#directions_readout")[0] );
           if(displayEntrance){
             displayEntrance();
+          }
+          // if this browser cannot geolocate, remove button
+          if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
+            $("#fromhere").css({ display: "none" }); 
           }
         </script>
         <hr/>

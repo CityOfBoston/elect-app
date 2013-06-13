@@ -46,6 +46,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 directionsDisplay.setMap(map);
 var directionsService = new google.maps.DirectionsService();
 var displayEntrance = null;
+var mydestination;
 
 // tap to close window AND/OR taps to find polling place
 google.maps.event.addListener(map, "click", function(e){
@@ -272,6 +273,7 @@ function showPoll(polldata){
 }
 
 function showDirections(startll, endll){
+  mydestination = endll;
   var request = {
     origin: startll,
     destination: endll,
@@ -298,5 +300,14 @@ function searchAddress(){
       directionsFrom = results[0].geometry.location;
       findPrecinctAndPoll( results[0].geometry.location );
     }
+  });
+}
+
+function fromHere(){
+  // recalculate directions from current location
+  navigator.geolocation.getCurrentPosition(function(position){
+    $('.ui-dialog').dialog('close');
+    var myloc = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
+    showDirections(myloc, mydestination );
   });
 }
