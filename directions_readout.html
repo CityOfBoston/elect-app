@@ -6,8 +6,18 @@
   </head>
   <body>
     <div data-role="page">
-      <div data-role="content" id="directions_readout" style="color:#fff;">
-        <p>Hello World</p>
+      <div data-role="header" data-theme="d" data-position="inline">
+        <h1>Directions</h1>
+      </div>
+      <div data-role="content" data-theme="d">
+        <div id="directions_readout">
+        </div>
+        <script type="text/javascript">
+          directionsDisplay.setPanel( $("#directions_readout")[0] );
+        </script>
+        <hr/>
+        <a data-role="button" data-theme="b" href="officials.html">My Officials</a>
+        <a data-role="button" data-rel="back" data-theme="c" href="officials.html">Close</a>
       </div>
     </div>
   </body>

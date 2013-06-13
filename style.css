@@ -18,10 +18,10 @@ html, body, #map, .ui-page-active, .ui-body{
   bottom: 30px;
   min-width: 40%;
   left: 25%;
-  background: #ddd;
+  /*background: #ddd;
   border: 2px solid #000;
   border-radius: 12px;
   text-align: center;
-  padding: 15px;
+  padding: 15px;*/
   font-size: 16pt; 
 }
