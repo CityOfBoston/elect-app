@@ -32,14 +32,6 @@ $(document).ready(function(){
 
   // open splash screen
   $.mobile.changePage('#splash_screen', 'pop', true, true);
-
-  // set up search
-  $("#addsearch").keypress(function(e){
-    if(e.keyCode == 13){
-      // pressed enter
-      searchAddress();
-    }
-  });
 });
 
 // set up polling place info
@@ -315,6 +307,9 @@ function showDirections(startll, endll){
 }
 
 function searchAddress(){
+  // hide splash screen
+  $('#splash_screen').css({ display: "none" });
+
   // if not specified, tell Google that this address is inside the city
   var searched = $("#addsearch").val();
   if(searched.toLowerCase().indexOf("boston") == -1){
@@ -350,5 +345,12 @@ function travelMode(){
       showDirections( directionsFrom, mydestination );
       return;
     }
+  }
+}
+
+function checkForEnter(e){
+  if(e.keyCode == 13){
+    // pressed enter
+    searchAddress();
   }
 }

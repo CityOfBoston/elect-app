@@ -12,6 +12,12 @@ html, body, #map, .ui-page, .ui-body{
 .ui-dialog{
   text-transform: none;
 }
+.ui-header>.ui-btn{
+  display: none;
+}
+#directions_readout .ui-header>.ui-btn{
+  display: inline-block;
+}
 #moreinfo{
   visibility: hidden;
   position: fixed;
