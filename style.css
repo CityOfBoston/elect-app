@@ -27,3 +27,6 @@ html, body, #map, .ui-body, .ui-page{
   left: 25%;
   font-size: 16pt; 
 }
+#moreinfo_screen{
+  display: none;
+}

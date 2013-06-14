@@ -13,4 +13,7 @@
   #moreinfo{
     display: none;
   }
+  #moreinfo_screen{
+    display: block;
+  }
 }

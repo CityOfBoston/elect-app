@@ -44,6 +44,7 @@ var directionsFrom = null;
 var geocoder = new google.maps.Geocoder();
 var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
 directionsDisplay.setMap(map);
+directionsDisplay.setPanel( $("#directions_readout")[0] );
 var directionsService = new google.maps.DirectionsService();
 var displayEntrance = null;
 var mydestination = null;
@@ -340,7 +341,6 @@ function travelMode(){
   var modes = $(".transitmode");
   for(var m=0;m<modes.length;m++){
     if(modes[m].checked && modes[m].value != myTravelMode){
-      $('.ui-dialog').dialog('close');
       myTravelMode = modes[m].value;
       showDirections( directionsFrom, mydestination );
       return;
@@ -353,4 +353,28 @@ function checkForEnter(e){
     // pressed enter
     searchAddress();
   }
+}
+
+          if(displayEntrance){
+            displayEntrance();
+          }
+          if(myTravelMode){
+            var modes = $(".transitmode");
+            for(var m=0;m<modes.length;m++){
+              if(modes[m].value == myTravelMode){
+                modes[m].checked = true;
+              }
+              else{
+                modes[m].checked = false;
+              }
+            }
+          }
+          // if this browser cannot geolocate, remove button
+          if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
+            $("#fromhere").css({ display: "none" }); 
+          }
+
+function directionsWindow(){
+  $("#moreinfo_screen").css({ display: "block" });
+  $.mobile.changePage('#moreinfo_screen', 'pop', true, true);
 }
