@@ -1,4 +1,13 @@
 /* overwrite jQuery Mobile styles on tablet and large screens */
 @media (min-width: 760px) {
-  
+  .ui-body{
+    width: 70%;
+    float: right;
+  }
+  .ui-popup{
+    display: block;
+    width: 25%;
+    float: right;
+    position: relative;
+  }
 }
