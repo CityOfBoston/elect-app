@@ -30,6 +30,9 @@ $(document).ready(function(){
     $("#addsearch").val("");
   });
 
+  // open splash screen
+  $.mobile.changePage('#splash_screen', 'pop', true, true);
+
   // set up search
   $("#addsearch").keypress(function(e){
     if(e.keyCode == 13){
@@ -101,7 +104,6 @@ function attachMarker(poll, pollMarker){
     infoWindow.setContent( content );
     infoWindow.open(map, pollMarker);
 
-    /*
 
     // clear old precincts
     if(visiblePrecincts.length){
@@ -120,7 +122,6 @@ function attachMarker(poll, pollMarker){
     s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=POLLINGID%3D" + pollingID + "&outFields=*&f=json&callback=findPrecinct";
     $(document.body).append(s);
     
-    */
   });
 }
 
@@ -201,12 +202,12 @@ function findPrecinctAndPoll( latlng ){
   // search for precinct matching this latlng
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=false&outSR=4326&outFields=PRECINCTID&f=json&callback=showPrecinctAndPoll";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll";
   $(document.body).append(s);
 }
 
 function showPrecinctAndPoll( precinctData ){
-  //mapPrecinctPolygons( precinctData );
+  mapPrecinctPolygons( precinctData );
 
   // look up polling place by precinct ID
   // this lookup table step is needed to connect a polling place to its precinct
@@ -232,7 +233,7 @@ function showPollMarker( lookupData ){
     $(document.body).append(s);
   }
   else{
-    showPoll( pollMarkers[ pollingID ].poll );
+    showPoll( { features: [ pollMarkers[ pollingID ].poll ] } );
   }
 }
 
@@ -333,7 +334,7 @@ function searchAddress(){
 function fromHere(){
   // recalculate directions from current location
   navigator.geolocation.getCurrentPosition(function(position){
-    $('.ui-dialog').dialog('close');
+    $('#directions_readout').dialog('close');
     directionsFrom = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
     showDirections(directionsFrom, mydestination);
   });

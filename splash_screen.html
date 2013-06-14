@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="content">
+        <p>
+          <img src="bostonlogo.png" style="float:left;padding-right:10px;padding-bottom:10px;"/>
+          Welcome to Boston's Voting Locations Map
+          <br/>
+          <br/>
+          Enter your home address to find your polling place
+        </p>
+        <div data-role="fieldcontain">
+          <input id="addsearch" type="search" name="search-mini" id="search" value="" x-webkit-speech speech onwebkitspeechchange="searchAddress();" onspeechchange="searchAddress();"/>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

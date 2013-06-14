@@ -22,28 +22,6 @@
         <div id="directions_readout">
         </div>
         <h1 id="entrance"></h1>
-        <script type="text/javascript">
-          // once this popup loads, attempt to fill directions readout
-          directionsDisplay.setPanel( $("#directions_readout")[0] );
-          if(displayEntrance){
-            displayEntrance();
-          }
-          if(myTravelMode){
-            var modes = $(".transitmode");
-            for(var m=0;m<modes.length;m++){
-              if(modes[m].value == myTravelMode){
-                modes[m].checked = true;
-              }
-              else{
-                modes[m].checked = false;
-              }
-            }
-          }
-          // if this browser cannot geolocate, remove button
-          if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
-            $("#fromhere").css({ display: "none" }); 
-          }
-        </script>
         <hr/>
         <!--
         <a data-role="button" data-theme="b" href="officials.html">My Officials</a>
