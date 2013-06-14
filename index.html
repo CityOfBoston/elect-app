@@ -33,8 +33,53 @@
       </div>
     </div>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+    <!--
     <link type="text/css" rel="stylesheet" media="all" href="style.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="bigscreen.css"/>
+    -->
+    <style type="text/css">
+html, body, #map, .ui-page, .ui-body [data-role=content]{
+  height: 100%;
+  width: 100%;
+  overflow: none;
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+.nowrap{
+  white-space: nowrap !important;
+}
+.ui-dialog{
+  text-transform: none;
+}
+.ui-header>.ui-btn{
+  display: none;
+}
+#directions_readout .ui-header>.ui-btn{
+  display: inline-block;
+}
+#moreinfo{
+  visibility: hidden;
+  position: fixed;
+  bottom: 30px;
+  min-width: 40%;
+  left: 25%;
+  font-size: 16pt; 
+}
+/* overwrite jQuery Mobile styles on tablet and large screens */
+@media (min-width: 760px) {
+  .ui-body{
+    width: 70%;
+    float: right;
+  }
+  .ui-dialog, .ui-mobile [data-role=dialog]{
+    display: block;
+    width: 25%;
+    float: right;
+    position: relative;
+  }
+}
+    </style>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" src="elect-app.js"></script>
