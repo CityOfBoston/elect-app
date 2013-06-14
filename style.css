@@ -1,10 +1,11 @@
-html, body, #map, .ui-page, .ui-body [data-role=content]{
+html, body, #map, .ui-body, .ui-page{
   height: 100%;
   width: 100%;
   overflow: none;
   margin: 0;
   padding: 0;
   text-transform: capitalize;
+  color: #000;
 }
 .nowrap{
   white-space: nowrap !important;
