@@ -7,9 +7,8 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   </head>
   <body>
-    <div id="topbar" class="ui-bar ui-bar-b">
+    <div id="topbar" data-role="header">
       <h1>Voting Locations</h1>
-      <a class="ui-bn-right" href="#" onclick="fromHere();" data-role="button" data-icon="gear" data-mini="true">Use GPS</a>
     </div>
     <div data-role="content" class="ui-body">
       <div id="map">
@@ -23,8 +22,9 @@
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" src="elect-app.js"></script>
     <div id="splash_screen" data-role="dialog">
-      <div data-role="header">
-        <h1>Voting Locations Map</h1>
+      <div class="ui-bar ui-bar-b">
+        <h1>Voting Locations</h1>
+        <a class="ui-bn-right" href="#" onclick="fromHere();" data-role="button" data-icon="gear" data-mini="true">Use GPS</a>
       </div>
       <div data-role="content">
         <p>
