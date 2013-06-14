@@ -4,7 +4,7 @@
     width: 70%;
     float: right;
   }
-  .ui-popup{
+  .ui-dialog, .ui-mobile [data-role=dialog]{
     display: block;
     width: 25%;
     float: right;
