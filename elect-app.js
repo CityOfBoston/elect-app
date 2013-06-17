@@ -330,11 +330,6 @@ function searchAddress(){
 function directionsFromMe(){
   // recalculate directions from current location
   navigator.geolocation.getCurrentPosition(function(position){
-    try{
-      $('#directions_readout').dialog('close');
-    }
-    catch(e){
-    }
     directionsFrom = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
     showDirections(directionsFrom, mydestination);
   });

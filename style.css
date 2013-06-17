@@ -30,3 +30,6 @@ html, body, #map, .ui-body, .ui-page{
 #moreinfo_screen{
   display: none;
 }
+#fromhere{
+  float: right;
+}
