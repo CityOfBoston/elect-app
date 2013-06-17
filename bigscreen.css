@@ -19,4 +19,8 @@
   .dialog-close{
     display: none;
   }
+  #directions_readout{
+    overflow-y: scroll;
+    max-height: 440px;
+  }
 }

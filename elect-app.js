@@ -34,10 +34,12 @@ $(document).ready(function(){
   $.mobile.changePage('#splash_screen', 'pop', true, true);
   
   // limit height of directions
-  $("#directions_readout").css({
-    "overflow-y": "scroll",
-    "max-height": Math.round($("#map").height() * 2 / 3) + "px"
-  });
+  if($("#moreinfo_screen").css("display") != "block"){
+    $("#moreinfo_screen").css({
+      "overflow-y": "scroll",
+      "max-height": Math.round($("#map").height() * 2 / 3) + "px"
+    });
+  }
 });
 
 // set up polling place info
