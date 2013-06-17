@@ -327,10 +327,14 @@ function searchAddress(){
   });
 }
 
-function fromHere(){
+function directionsFromMe(){
   // recalculate directions from current location
   navigator.geolocation.getCurrentPosition(function(position){
-    $('#directions_readout').dialog('close');
+    try{
+      $('#directions_readout').dialog('close');
+    }
+    catch(e){
+    }
     directionsFrom = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
     showDirections(directionsFrom, mydestination);
   });
@@ -355,24 +359,22 @@ function checkForEnter(e){
   }
 }
 
-          if(displayEntrance){
-            displayEntrance();
-          }
-          if(myTravelMode){
-            var modes = $(".transitmode");
-            for(var m=0;m<modes.length;m++){
-              if(modes[m].value == myTravelMode){
-                modes[m].checked = true;
-              }
-              else{
-                modes[m].checked = false;
-              }
-            }
-          }
-          // if this browser cannot geolocate, remove button
-          if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
-            $("#fromhere").css({ display: "none" }); 
-          }
+if(myTravelMode){
+  var modes = $(".transitmode");
+  for(var m=0;m<modes.length;m++){
+    if(modes[m].value == myTravelMode){
+      modes[m].checked = true;
+    }
+    else{
+      modes[m].checked = false;
+    }
+  }
+}
+
+// if this browser cannot geolocate, hide button
+if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
+  $("#fromhere").css({ display: "none" }); 
+}
 
 function directionsWindow(){
   $("#moreinfo_screen").css({ display: "block" });

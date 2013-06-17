@@ -16,4 +16,7 @@
   #moreinfo_screen{
     display: block;
   }
+  .dialog-close{
+    display: none;
+  }
 }
