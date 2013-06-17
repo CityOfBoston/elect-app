@@ -105,7 +105,7 @@ function attachMarker(poll, pollMarker){
     infoWindow.setContent( content );
     infoWindow.open(map, pollMarker);
 
-
+/*
     // clear old precincts
     if(visiblePrecincts.length){
       for(var p=0;p<visiblePrecincts.length;p++){
@@ -122,10 +122,12 @@ function attachMarker(poll, pollMarker){
     s.type = "text/javascript";
     s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=POLLINGID%3D" + pollingID + "&outFields=*&f=json&callback=findPrecinct";
     $(document.body).append(s);
+*/
     
   });
 }
 
+/*
 function findPrecinct(lookupData){
 
   var precinctIDs = [ ];
@@ -140,6 +142,7 @@ function findPrecinct(lookupData){
   s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?where=PRECINCTID%3D%27" + precinctIDs + "%27&outSR=4326&outFields=*&f=json&returnGeometry=true&callback=mapPrecinctPolygons";
   $(document.body).append(s);
 }
+*/
 
 function mapPrecinctPolygons(precinctData){
 
