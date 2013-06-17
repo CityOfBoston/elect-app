@@ -344,7 +344,7 @@ function directionsFromMe(){
 function travelMode(){
   // switch user's travel mode
   var mode = $("#mode-select").val();
-  $("#mode-display").text(mode);
+  $("#mode-display").text( mode.replace(mode[0], mode[0].toUpperCase()) );
   myTravelMode = mode;
   showDirections( directionsFrom, mydestination );
 }
