@@ -52,6 +52,7 @@
         </a>
       </div>
       <div id="directions_screen" data-role="content" class="ui-content ui-body-c">
+        <!--
         <fieldset data-role="controlgroup" data-mini="true">
           <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-1" value="walk" checked="checked" onchange="travelMode()"/>
           <label for="mode-mini-1">Walk</label>
@@ -60,6 +61,22 @@
           <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-3" value="drive" onchange="travelMode()"/>
           <label for="mode-mini-3">Drive</label>
         </fieldset>
+        -->
+        <div class="ui-select">
+          <div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="arrow-d" data-iconpos="right" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-right ui-btn-up-c">
+            <span class="ui-btn-inner">
+              <span class="ui-btn-text">
+                <span id="mode-display">Walk</span>
+              </span>
+              <span class="ui-icon ui-icon-arrow-d ui-icon-shadow">&nbsp;</span>
+            </span>
+            <select id="mode-select" onchange="travelMode()">
+              <option value="walk" selected>Walk</option>
+              <option value="transit">Transit</option>
+              <option value="drive">Drive</option>
+            </select>
+          </div>
+        </div>
         <div id="directions_readout">
         </div>
         <h1 id="entrance"></h1>

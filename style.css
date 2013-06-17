@@ -17,7 +17,6 @@ html, body, #map, .ui-body, .ui-page{
   display: none;
 }
 #directions_readout{
-  max-height: 440px;
   overflow-y: scroll;
 }
 #directions_readout .ui-header>.ui-btn{

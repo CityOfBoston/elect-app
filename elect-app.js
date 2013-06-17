@@ -32,6 +32,12 @@ $(document).ready(function(){
 
   // open splash screen
   $.mobile.changePage('#splash_screen', 'pop', true, true);
+  
+  // limit height of directions
+  $("#directions_readout").css({
+    "overflow-y": "scroll",
+    "max-height": Math.round($("#map").height() * 2 / 3) + "px"
+  });
 });
 
 // set up polling place info
@@ -336,15 +342,11 @@ function directionsFromMe(){
 }
 
 function travelMode(){
-  // determine user's travel mode
-  var modes = $(".transitmode");
-  for(var m=0;m<modes.length;m++){
-    if(modes[m].checked && modes[m].value != myTravelMode){
-      myTravelMode = modes[m].value;
-      showDirections( directionsFrom, mydestination );
-      return;
-    }
-  }
+  // switch user's travel mode
+  var mode = $("#mode-select").val();
+  $("#mode-display").text(mode);
+  myTravelMode = mode;
+  showDirections( directionsFrom, mydestination );
 }
 
 function checkForEnter(e){
