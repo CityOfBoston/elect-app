@@ -16,6 +16,9 @@ html, body, #map, .ui-body, .ui-page{
 .ui-header>.ui-btn{
   display: none;
 }
+.ui-dialog h2{
+  text-transform: capitalize;
+}
 #directions_readout .ui-header>.ui-btn{
   display: inline-block;
 }

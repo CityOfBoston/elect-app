@@ -175,8 +175,8 @@ function mapPrecinctPolygons(precinctData){
         strokeColor: "#00f",
         geodesic: false,
         clickable: false,
-        fillColor: "#4a4aff",
-        fillOpacity: 0.6,
+        fillColor: "#3aaacf",
+        fillOpacity: 0.4,
         map: map
       });
 
