@@ -16,6 +16,10 @@ html, body, #map, .ui-body, .ui-page{
 .ui-header>.ui-btn{
   display: none;
 }
+#directions_readout{
+  max-height: 80%;
+  overflow-y: scrollable;
+}
 #directions_readout .ui-header>.ui-btn{
   display: inline-block;
 }
