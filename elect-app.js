@@ -267,9 +267,14 @@ function showPoll(polldata){
   
   $("#moreinfo").css({ visibility: "visible" });
   if(poll.attributes.Voter_Entrance){
-    displayEntrance = function(){
-      $("#entrance").text( poll.attributes.Voter_Entrance.toLowerCase() );
-    };
+    $("#entrance").text( poll.attributes.Voter_Entrance.toLowerCase() ).css({
+      display: "block"
+    });
+  }
+  else{
+    $("#entrance").css({
+      display: "none"
+    });
   }
   
   if(directionsFrom){
