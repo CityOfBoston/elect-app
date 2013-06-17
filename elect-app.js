@@ -32,14 +32,6 @@ $(document).ready(function(){
 
   // open splash screen
   $.mobile.changePage('#splash_screen', 'pop', true, true);
-  
-  // limit height of directions
-  if($("#moreinfo_screen").css("display") != "block"){
-    $("#moreinfo_screen").css({
-      "overflow-y": "scroll",
-      "max-height": Math.round($("#map").height() * 2 / 3) + "px"
-    });
-  }
 });
 
 // set up polling place info
@@ -385,4 +377,17 @@ if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
 function directionsWindow(){
   $("#moreinfo_screen").css({ display: "block" });
   $.mobile.changePage('#moreinfo_screen', 'pop', true, true);
+
+  // make everything scrollable so Android < 3 can work
+  $("html, body, #map, .ui-body, .ui-page").css({
+    overflow: "scrollable-y"
+  });
+}
+
+function hideDirectionsWindow(){
+  $('#moreinfo_screen').css({ display: 'none' })
+  // make everything un-scrollable so Android < 3 can work
+  $("html, body, #map, .ui-body, .ui-page").css({
+    overflow: "hidden"
+  });
 }
