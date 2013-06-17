@@ -342,11 +342,15 @@ function directionsFromMe(){
 }
 
 function travelMode(){
-  // switch user's travel mode
-  var mode = $("#mode-select").val();
-  $("#mode-display").text( mode.replace(mode[0], mode[0].toUpperCase()) );
-  myTravelMode = mode;
-  showDirections( directionsFrom, mydestination );
+  // determine user's travel mode
+  var modes = $(".transitmode");
+  for(var m=0;m<modes.length;m++){
+    if(modes[m].checked && modes[m].value != myTravelMode){
+      myTravelMode = modes[m].value;
+      showDirections( directionsFrom, mydestination );
+      return;
+    }
+  }
 }
 
 function checkForEnter(e){
