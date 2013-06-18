@@ -112,7 +112,7 @@ function attachMarker(poll, pollMarker){
 
     var s = document.createElement("script");
     s.type = "text/javascript";
-    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=POLLINGID%3D" + pollingID + "&outFields=*&f=json&callback=findPrecinct";
+    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=POLLINGID%3D%27" + pollingID + "%27&outFields=*&f=json&callback=findPrecinct";
     $(document.body).append(s);
 */
     
@@ -211,7 +211,7 @@ function showPrecinctAndPoll( precinctData ){
 
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D" + precinctID + "&outFields=*&f=json&callback=showPollMarker";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27" + precinctID + "%27&outFields=*&f=json&callback=showPollMarker";
   $(document.body).append(s);
 }
 
@@ -225,7 +225,7 @@ function showPollMarker( lookupData ){
   if(typeof pollMarkers[ pollingID ] == "undefined"){
     var s = document.createElement("script");
     s.type = "text/javascript";
-    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=POLLINGID%3D" + pollingID + "&returnGeometry=true&outFields=*&outSR=4326&callback=showPoll";
+    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=POLLINGID%3D%27" + pollingID + "%27&returnGeometry=true&outFields=*&outSR=4326&callback=showPoll";
     $(document.body).append(s);
   }
   else{
