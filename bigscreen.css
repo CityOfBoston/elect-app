@@ -16,11 +16,24 @@
   #moreinfo_screen{
     display: block;
   }
-  .dialog-close{
+  #moreinfo_screen .dialog-close{
     display: none;
   }
   #directions_readout{
     overflow-y: scroll;
     max-height: 440px;
+  }
+  .elected{
+    display: block;
+  }
+  #officials-btn{
+    float: right;
+    margin-right: 35px;
+  }
+  #officials-btn-inner{
+    display: block;
+  }
+  #show_my_officials li{
+    padding-bottom: 20px;
   }
 }

@@ -19,7 +19,7 @@ html, body, #map, .ui-body, .ui-page{
 .ui-dialog h2{
   text-transform: capitalize;
 }
-#directions_readout .ui-header>.ui-btn{
+#directions_readout .ui-header>.ui-btn, #show_my_officials .ui-header>.ui-btn{
   display: inline-block;
 }
 #moreinfo{
@@ -35,4 +35,10 @@ html, body, #map, .ui-body, .ui-page{
 }
 #fromhere{
   float: right;
+}
+.ui-body-a, .ui-overlay-a #map{
+  text-shadow: none;
+}
+#officials-btn, #officials-btn-inner{
+  display: none;
 }

@@ -55,39 +55,6 @@ var myTravelMode = null;
 google.maps.event.addListener(map, "click", function(e){
   infoWindow.close();
 });
-/*
-google.maps.event.addListener(map, "dblclick", function(e){
-  var lat = e.latLng.lat();
-  var lng = e.latLng.lng();
-  findPrecinctAndPoll( new google.maps.LatLng( lat, lng ) );
-});
-*/
-
-// load and map all polling places
-/*
-var s = document.createElement("script");
-s.type = "text/javascript";
-s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&outFields=*&outSR=4326&callback=loadPollingPlaces";
-$(document.body).append(s);
-
-function loadPollingPlaces(polldata){
-  var polls = polldata.features;
-  for(var p=0; p<polls.length; p++){
-    var poll = polls[p];
-    
-    // map this polling place
-    var lat = poll.geometry.y;
-    var lng = poll.geometry.x;
-    var pollMarker = new google.maps.Marker({
-      position: new google.maps.LatLng( lat, lng )
-    });
-    pollMarkers[ poll.attributes.POLLINGID ] = { marker: pollMarker, poll: poll };
-    
-    // display district and info when I click this polling place
-    attachMarker(poll, pollMarker);
-  }
-}
-*/
 
 function attachMarker(poll, pollMarker){
   google.maps.event.addListener(pollMarker, "click", function(e){
@@ -285,6 +252,9 @@ function showPoll(polldata){
 
 function showDirections(startll, endll){
   mydestination = endll;
+  
+  $("#officials-btn").css({ display: "block" });
+  
   var travel = google.maps.DirectionsTravelMode.WALKING;
   if(myTravelMode){
     if(myTravelMode == "transit"){
@@ -391,6 +361,67 @@ function directionsWindow(){
 
 function hideDirectionsWindow(){
   $('#moreinfo_screen').css({ display: 'none' })
+  // make everything un-scrollable so Android < 3 can work
+  $("html, body, #map, .ui-body, .ui-page").css({
+    overflow: "hidden"
+  });
+}
+
+function showOfficialsWindow(){
+  $('#show_my_officials').css({
+    display: 'block',
+    position: 'absolute',
+    'background-color': '#fff',
+    color: '#000',
+    'z-index': 10,
+    'font-family': 'arial',
+    'text-shadow': 'none'
+  })
+  // make everything scrollable in a way that Android < 3 can handle
+  $("html, body, #map, .ui-body, .ui-page").css({
+    overflow: "visible"
+  });
+  
+  
+  // load all officials
+  var lng = mydestination.lng();
+  var lat = mydestination.lat();
+
+  var s = document.createElement('script');
+  s.type="text/javascript";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/1/query?geometry=" + lng + "%2C" + lat + "&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson&callback=loadCityCouncil";
+  $(document.body).append(s);
+
+  var s = document.createElement('script');
+  s.type="text/javascript";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/2/query?geometry=" + lng + "%2C" + lat + "&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson&callback=loadStateRepresentative";
+  $(document.body).append(s);
+
+  var s = document.createElement('script');
+  s.type="text/javascript";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/3/query?geometry=" + lng + "%2C" + lat + "&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson&callback=loadStateSenate";
+  $(document.body).append(s);
+
+  var s = document.createElement('script');
+  s.type="text/javascript";
+  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/4/query?geometry=" + lng + "%2C" + lat + "&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnCountOnly=false&returnIdsOnly=false&returnGeometry=false&outFields=*&f=pjson&callback=loadUSCongress";
+  $(document.body).append(s);
+}
+function loadCityCouncil(electdata){
+  $("#citycouncil").text( electdata.features[0].attributes.REPNAME + " -- District: " + electdata.features[0].attributes.NAME );
+}
+function loadStateRepresentative(electdata){
+  $("#staterepresentative").text( electdata.features[0].attributes.REPNAME + " -- District: " + electdata.features[0].attributes.NAME );
+}
+function loadStateSenate(electdata){
+  $("#statesenate").text( electdata.features[0].attributes.REPNAME + " -- District: " + electdata.features[0].attributes.NAME );
+}
+function loadUSCongress(electdata){
+  $("#uscongress").text( electdata.features[0].attributes.REPNAME + " -- District: " + electdata.features[0].attributes.NAME );
+}
+
+function hideOfficialsWindow(){
+  $('#show_my_officials').css({ display: 'none' })
   // make everything un-scrollable so Android < 3 can work
   $("html, body, #map, .ui-body, .ui-page").css({
     overflow: "hidden"
