@@ -383,9 +383,9 @@ function directionsWindow(){
   $("#moreinfo_screen").css({ display: "block" });
   $.mobile.changePage('#moreinfo_screen', 'pop', true, true);
 
-  // make everything scrollable so Android < 3 can work
+  // make everything scrollable in a way that Android < 3 can handle
   $("html, body, #map, .ui-body, .ui-page").css({
-    overflow: "scrollable-y"
+    overflow: "visible"
   });
 }
 
