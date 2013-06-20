@@ -178,6 +178,7 @@ function showPrecinctAndPoll( precinctData ){
 
   // if possible, switch URL to this precinct
   // this means back button will refresh page
+  /*
   if(typeof history != "undefined" && typeof history.pushState != "undefined"){
     history.pushState(null, null, "?p=" + precinctID);
 	window.onpopstate = function(e) {
@@ -186,6 +187,7 @@ function showPrecinctAndPoll( precinctData ){
 	  window.location = "index.html?start=" + Math.round(t * 0.001);
 	};
   }
+  */
 
   var s = document.createElement("script");
   s.type = "text/javascript";
