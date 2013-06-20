@@ -11,6 +11,14 @@ A lightweight, mobile-responsive site which gives you directions to your polling
 * Press "Use My Location" to switch to directions from <em>where you are</em>, not where you live
 * Retrieves polling place data directly from an ArcGIS REST service
 
+## Screenshots
+
+### Desktop
+<img src="https://raw.github.com/mapmeld/boston-greenery/gh-pages/ondesktop.png"/>
+
+### Mobile
+<img src="https://raw.github.com/mapmeld/boston-greenery/gh-pages/onmobile.png"/>
+
 ## Technologies Used
 
 * <a href="https://developers.google.com/maps/documentation/javascript/">Google Maps API (JavaScript)</a>
