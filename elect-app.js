@@ -176,6 +176,17 @@ function showPrecinctAndPoll( precinctData ){
   // this lookup table step is needed to connect a polling place to its precinct
   var precinctID = precinctData.features[0].attributes.PRECINCTID;
 
+  // if possible, switch URL to this precinct
+  // this means back button will refresh page
+  if(typeof history != "undefined" && typeof history.pushState != "undefined"){
+    history.pushState(null, null, "?p=" + precinctID);
+	window.onpopstate = function(e) {
+	  // hit back button -> go back to start
+	  var t = new Date();
+	  window.location = "index.html?start=" + Math.round(t * 0.001);
+	};
+  }
+
   var s = document.createElement("script");
   s.type = "text/javascript";
   s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27" + precinctID + "%27&outFields=*&f=json&callback=showPollMarker";
