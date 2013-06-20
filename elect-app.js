@@ -8,8 +8,8 @@ if(typeof console == "undefined" || typeof console.log == "undefined"){
 
 google.maps.visualRefresh=true;
 var mapOptions = {
-  center: new google.maps.LatLng( 42.359686, -71.05854 ),
-  zoom: 14,
+  center: new google.maps.LatLng( 42.322953, -71.098622 ),
+  zoom: 12,
   mapTypeId: google.maps.MapTypeId.ROADMAP,
   streetViewControl: false,
   mapTypeControl: false,

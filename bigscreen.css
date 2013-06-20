@@ -23,9 +23,6 @@
     overflow-y: scroll;
     max-height: 440px;
   }
-  .elected{
-    display: block;
-  }
   #officials-btn{
     float: right;
     margin-right: 35px;
