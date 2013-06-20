@@ -178,7 +178,6 @@ function showPrecinctAndPoll( precinctData ){
 
   // if possible, switch URL to this precinct
   // this means back button will refresh page
-  /*
   if(typeof history != "undefined" && typeof history.pushState != "undefined"){
     history.pushState(null, null, "?p=" + precinctID);
 	window.onpopstate = function(e) {
@@ -187,7 +186,6 @@ function showPrecinctAndPoll( precinctData ){
 	  window.location = "index.html?start=" + Math.round(t * 0.001);
 	};
   }
-  */
 
   var s = document.createElement("script");
   s.type = "text/javascript";
@@ -265,6 +263,10 @@ function showPoll(polldata){
 
 function showDirections(startll, endll){
   mydestination = endll;
+  
+  if($("#moreinfo_screen").css("visibility") == "hidden"){
+    $("#moreinfo_screen").css({ visibility: "visible" });
+  }
   
   $("#officials-btn").css({ display: "block" });
   
@@ -364,6 +366,9 @@ if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
 
 function directionsWindow(){
   $("#moreinfo_screen").css({ display: "block" });
+  if(typeof window.onpopstate != "undefined"){
+    window.onpopstate = function(e){ };
+  }
   $.mobile.changePage('#moreinfo_screen', 'pop', true, true);
 
   // make everything scrollable in a way that Android < 3 can handle
@@ -388,13 +393,13 @@ function showOfficialsWindow(){
     color: '#000',
     'z-index': 10,
     'font-family': 'arial',
-    'text-shadow': 'none'
+    'text-shadow': 'none',
+    visibility: 'visible'
   })
   // make everything scrollable in a way that Android < 3 can handle
   $("html, body, #map, .ui-body, .ui-page").css({
     overflow: "visible"
   });
-  
   
   // load all officials
   var lng = mydestination.lng();

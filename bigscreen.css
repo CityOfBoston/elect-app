@@ -13,8 +13,8 @@
   #moreinfo{
     display: none;
   }
-  #moreinfo_screen{
-    display: block;
+  #moreinfo_screen, #show_my_officials{
+    visibility: hidden;
   }
   #moreinfo_screen .dialog-close{
     display: none;
