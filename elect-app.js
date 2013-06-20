@@ -38,6 +38,7 @@ $(document).ready(function(){
 var visiblePrecincts = [ ];
 var selectMarker = null;
 var pollMarkers = { };
+var wardAndPrecinct = null;
 
 // set up directions info
 var directionsFrom = null;
@@ -63,45 +64,9 @@ function attachMarker(poll, pollMarker){
     
     infoWindow.setContent( content );
     infoWindow.open(map, pollMarker);
-
-/*
-    // clear old precincts
-    if(visiblePrecincts.length){
-      for(var p=0;p<visiblePrecincts.length;p++){
-        visiblePrecincts[p].setMap(null);
-      }
-      visiblePrecincts = [ ];
-    }
-    
-    // look up precinct by polling ID
-    // this lookup table step is needed to connect a polling place to its precinct
-    var pollingID = poll.attributes.POLLINGID;
-
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=POLLINGID%3D%27" + pollingID + "%27&outFields=*&f=json&callback=findPrecinct";
-    $(document.body).append(s);
-*/
     
   });
 }
-
-/*
-function findPrecinct(lookupData){
-
-  var precinctIDs = [ ];
-  for(var p=0;p<lookupData.features.length;p++){
-    precinctIDs.push( lookupData.features[p].attributes.PRECINCTID );
-  }
-  precinctIDs = precinctIDs.join("%27+OR+PRECINCTID%3D%27");
-  
-  // look up precinct geometry
-  var s = document.createElement("script");
-  s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?where=PRECINCTID%3D%27" + precinctIDs + "%27&outSR=4326&outFields=*&f=json&returnGeometry=true&callback=mapPrecinctPolygons";
-  $(document.body).append(s);
-}
-*/
 
 function mapPrecinctPolygons(precinctData){
 
@@ -172,6 +137,9 @@ function findPrecinctAndPoll( latlng ){
 function showPrecinctAndPoll( precinctData ){
   mapPrecinctPolygons( precinctData );
 
+  // retrieve precinct ward and precinct, coded WWPP
+  wardAndPrecinct = precinctData.features[0].attributes.NAME;
+
   // look up polling place by precinct ID
   // this lookup table step is needed to connect a polling place to its precinct
   var precinctID = precinctData.features[0].attributes.PRECINCTID;
@@ -234,6 +202,10 @@ function showPoll(polldata){
   }
 
   var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
+
+  // include precinct ward and precinct, coded WWPP
+  content += "<div class='nowrap'>Look for: Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2) + "</div>";
+
   if(poll.attributes.Voter_Entrance){
     content += poll.attributes.Voter_Entrance.toLowerCase();
   }
@@ -298,13 +270,15 @@ function showDirections(startll, endll){
       });
       // if you click the start directions box, offer to reload the page
       // you can also refresh the page or press the back button
-      $("#adp-placemark").click(function(e){
-        var restart = confirm('Find polling place for another address?')
-        if(restart){
-          var d = new Date();
-          window.location = "index.html?t=" + Math.round( d * 0.001 );
-        }
-      });
+      setTimeout(function(){
+        $("#adp-placemark").click(function(e){
+          var restart = confirm('Find polling place for another address?')
+          if(restart){
+            var d = new Date();
+            window.location = "index.html?t=" + Math.round( d * 0.001 );
+          }
+        });
+      }, 500);
     }
   });
 }

@@ -9,6 +9,7 @@ html, body, #map, .ui-body, .ui-page{
 }
 .nowrap{
   white-space: nowrap !important;
+  font-size: 16px !important;
 }
 .ui-dialog{
   text-transform: none;
