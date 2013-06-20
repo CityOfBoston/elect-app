@@ -296,6 +296,15 @@ function showDirections(startll, endll){
         icon: 'http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=%20&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1',
         position: result.routes[0].legs[0].start_location
       });
+      // if you click the start directions box, offer to reload the page
+      // you can also refresh the page or press the back button
+      $("#adp-placemark").click(function(e){
+        var restart = confirm('Find polling place for another address?')
+        if(restart){
+          var d = new Date();
+          window.location = "index.html?t=" + Math.round( d * 0.001 );
+        }
+      });
     }
   });
 }
