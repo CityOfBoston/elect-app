@@ -204,7 +204,7 @@ function showPoll(polldata){
   var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
 
   // include precinct ward and precinct, coded WWPP
-  content += "<div class='nowrap'>Look for: Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2) + "</div>";
+  content += "<div class='nowrap'>You Are: Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2) + "</div>";
 
   if(poll.attributes.Voter_Entrance){
     content += poll.attributes.Voter_Entrance.toLowerCase();
