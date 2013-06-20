@@ -18,6 +18,7 @@ A lightweight, mobile-responsive site which gives you directions to your polling
 
 ### Mobile
 <img src="https://raw.github.com/mapmeld/elect-app/gh-pages/onmobile.png"/>
+<img src="https://raw.github.com/mapmeld/elect-app/gh-pages/onmobile2.png"/>
 
 ## Technologies Used
 
