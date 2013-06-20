@@ -14,10 +14,10 @@ A lightweight, mobile-responsive site which gives you directions to your polling
 ## Screenshots
 
 ### Desktop
-<img src="https://raw.github.com/mapmeld/boston-greenery/gh-pages/ondesktop.png"/>
+<img src="https://raw.github.com/mapmeld/elect-app/gh-pages/ondesktop.png"/>
 
 ### Mobile
-<img src="https://raw.github.com/mapmeld/boston-greenery/gh-pages/onmobile.png"/>
+<img src="https://raw.github.com/mapmeld/elect-app/gh-pages/onmobile.png"/>
 
 ## Technologies Used
 
