@@ -14,6 +14,7 @@
     display: none;
   }
   #moreinfo_screen, #show_my_officials{
+    display: block;
     visibility: hidden;
   }
   #moreinfo_screen .dialog-close{
