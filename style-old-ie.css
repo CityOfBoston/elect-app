@@ -1,0 +1,34 @@
+.ui-body{
+  width: 70%;
+  float: right;
+}
+.ui-dialog, .ui-mobile [data-role=dialog]{
+  display: block;
+  width: 28%;
+  float: right;
+  position: relative;
+}
+#moreinfo{
+  display: none;
+}
+#moreinfo_screen, #show_my_officials{
+  display: block;
+  visibility: hidden;
+}
+#moreinfo_screen .dialog-close{
+  display: none;
+}
+#directions_readout{
+  overflow-y: scroll;
+  max-height: 440px;
+}
+#officials-btn{
+  float: right;
+  margin-right: 35px;
+}
+#officials-btn-inner{
+  display: block;
+}
+#show_my_officials li{
+  padding-bottom: 20px;
+}
