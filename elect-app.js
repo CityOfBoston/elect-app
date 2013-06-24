@@ -284,11 +284,16 @@ function showDirections(startll, endll){
 }
 
 function searchAddress(){
+  // check that some text was submitted
+  var searched = $("#addsearch").val();
+  if(!searched.length){
+    return;
+  }
+  
   // hide splash screen
   $('#splash_screen').css({ display: "none" });
 
   // if not specified, tell Google that this address is inside the city
-  var searched = $("#addsearch").val();
   if(searched.toLowerCase().indexOf("boston") == -1){
     searched += ", Boston, MA";
   }

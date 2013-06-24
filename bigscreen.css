@@ -34,4 +34,7 @@
   #show_my_officials li{
     padding-bottom: 20px;
   }
+  #searchbutton{
+    display: block;
+  }
 }

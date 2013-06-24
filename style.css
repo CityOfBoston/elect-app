@@ -43,3 +43,6 @@ html, body, #map, .ui-body, .ui-page{
 #officials-btn, #officials-btn-inner{
   display: none;
 }
+#searchbutton{
+  display: none;
+}
