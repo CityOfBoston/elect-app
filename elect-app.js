@@ -32,6 +32,11 @@ $(document).ready(function(){
 
   // open splash screen
   $.mobile.changePage('#splash_screen', 'pop', true, true);
+
+  // if this browser cannot geolocate, hide button
+  if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
+    $("#fromhere").css({ display: "none" });
+  }
 });
 
 // set up polling place info
@@ -209,6 +214,9 @@ function showPoll(polldata){
   if(poll.attributes.Voter_Entrance){
     content += poll.attributes.Voter_Entrance.toLowerCase();
   }
+  
+  //content += "<br/><img width='250' height='250' src='http://maps.googleapis.com/maps/api/streetview?size=250x250&location=" + poll.attributes.FULLADD + "," + poll.attributes.CITY + "," + poll.attributes.STATE + "&fov=90&pitch=10&sensor=false'/><br/>";
+  
   infoWindow.setContent( content );
   infoWindow.open( map, pollMarkers[ pollingID ].marker );
 
@@ -345,11 +353,6 @@ if(myTravelMode){
       modes[m].checked = false;
     }
   }
-}
-
-// if this browser cannot geolocate, hide button
-if(!navigator.geolocation || !navigator.geolocation.getCurrentPosition){
-  $("#fromhere").css({ display: "none" }); 
 }
 
 function directionsWindow(){
