@@ -1,7 +1,7 @@
 html, body, #map, .ui-body, .ui-page{
   height: 100%;
   width: 100%;
-  overflow: none;
+  overflow: hidden;
   margin: 0;
   padding: 0;
   text-transform: capitalize;
