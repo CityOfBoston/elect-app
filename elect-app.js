@@ -35,7 +35,7 @@ var lookupTable = {
   // URL with {{PRECINCTID}}, callback to showPollMarker
   serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27{{PRECINCTID}}%27&outFields=*&f=json&callback=showPollMarker",
   pollingPlaceId: function(lookupData){
-    lookupData.features[0].attributes.POLLINGID;
+    return lookupData.features[0].attributes.POLLINGID;
   }
 };
 
@@ -163,7 +163,7 @@ function mapPrecinctPolygons(precinctData){
       
       var pathList = precinct.getPolygon( features[f] );
       for(var r=0;r<pathList.length;r++){
-        for(var c=0;c<pathList.length;c++){
+        for(var c=0;c<pathList[r].length;c++){
           pathList[r][c] = new google.maps.LatLng( pathList[r][c][0] * 1.0, pathList[r][c][1] * 1.0 );
         }
       }
@@ -255,6 +255,7 @@ function showPollMarker( lookupData ){
 }
 
 function showPoll(polldata){ 
+  console.log( polldata );
   var poll = pollingPlace.getFirst( polldata );
   var pollingID = pollingPlace.getID( poll );
 
