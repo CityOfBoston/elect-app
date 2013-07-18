@@ -6,8 +6,8 @@ var precinct = {
     return precinctServiceResponse.features;
   },
   getName: function(precinctFeature){
-    name = precinctFeature.attributes.NAME;
-    return "Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2);
+    var name = precinctFeature.attributes.NAME;
+    return "Ward " + name.substring(0,2) + ", Precinct " + name.substring(2);
   },
   getID: function(precinctFeature){
     return precinctFeature.attributes.PRECINCTID;
@@ -161,8 +161,15 @@ function mapPrecinctPolygons(precinctData){
       }
       content += precinct.getName( features[f] );
       
+      var pathList = precinct.getPolygon( features[f] );
+      for(var r=0;r<pathList.length;r++){
+        for(var c=0;c<pathList.length;c++){
+          pathList[r][c] = new google.maps.LatLng( pathList[r][c][0] * 1.0, pathList[r][c][1] * 1.0 );
+        }
+      }
+      
       var precinctPoly = new google.maps.Polygon({
-        paths: precinct.getPolygon( features[f] ),
+        paths: pathList,
         strokeWeight: 1,
         strokeOpacity: 0.5,
         strokeColor: "#00f",
@@ -221,10 +228,10 @@ function showPrecinctAndPoll( precinctData ){
   var s = document.createElement("script");
   s.type = "text/javascript";
   if(typeof lookupTable != "undefined" && lookupTable){
-    s.src = replaceAll( lookupTable.serviceURL, "{{PRECINCTID}}", precinctID );
+    s.src = replaceAll( lookupTable.serviceUrl, "{{PRECINCTID}}", precinctID );
   }
   else{
-    s.src = replaceAll( pollingPlace.serviceURL, "{{POLLINGPLACEID}}", precinctID );
+    s.src = replaceAll( pollingPlace.serviceUrl, "{{POLLINGPLACEID}}", precinctID );
   }
   $(document.body).append(s);
 }
