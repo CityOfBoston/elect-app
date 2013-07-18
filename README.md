@@ -29,3 +29,18 @@ A lightweight, mobile-responsive site which gives you directions to your polling
 * <a href="http://www.labnol.org/software/add-speech-recognition-to-website/19989/">Speech Input API</a>
 * <a href="http://pages.github.com/">GitHub Pages</a>
 
+## Adaptable
+
+Data service URLs and helpers are defined at the top of elect-app.js. This makes it possible for you to reuse the app
+with different web services. Sample:
+
+    var pollingPlace = {
+      // URL with {{POLLINGPLACEID}}, callback to showPoll
+      serviceUrl: "http://example.com/getPollingPlaces?id={{POLLINGPLACEID}}&callback=showPoll",
+      getFirst: function( polldata ){
+        return polldata.features[0];
+      },
+      getID: function( poll ){
+        return poll.attributes.POLLINGID;
+      }
+    };
