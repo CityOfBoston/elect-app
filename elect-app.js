@@ -1,11 +1,74 @@
-// avoid console errors if missing
+// data locations
+var precinct = {
+  // URL with {{LAT}} and {{LNG}}, callback to showPrecinctAndPoll
+  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+{{LNG}}%2C+y%3A+{{LAT}}+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll",
+  getList: function(precinctServiceResponse){
+    return precinctServiceResponse.features;
+  },
+  getName: function(precinctFeature){
+    name = precinctFeature.attributes.NAME;
+    return "Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2);
+  },
+  getID: function(precinctFeature){
+    return precinctFeature.attributes.PRECINCTID;
+  },
+  getPolygon: function(precinctFeature){
+    // polygon coordinates [ [ [lat, lng], [lat, lng], [lat, lng] ] ]
+    // holes: [ [ outer latlngs ], [ inner latlngs ] ]
+    var rings = [ ];
+    for(var r=0; r<precinctFeature.geometry.rings.length;r++){
+      var ring = [ ];
+      for(var pt=0; pt<precinctFeature.geometry.rings[r].length; pt++){
+        ring.push([
+          precinctFeature.geometry.rings[r][pt][1],
+          precinctFeature.geometry.rings[r][pt][0]
+        ]);
+      }
+      rings.push(ring);
+    }
+    return rings;
+  }
+};
 
+// set to null if you can directly use precinct's PRECINCTID === polling place's POLLINGPLACEID
+var lookupTable = {
+  // URL with {{PRECINCTID}}, callback to showPollMarker
+  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27{{PRECINCTID}}%27&outFields=*&f=json&callback=showPollMarker",
+  pollingPlaceId: function(lookupData){
+    lookupData.features[0].attributes.POLLINGID;
+  }
+};
+
+var pollingPlace = {
+  // URL with {{POLLINGPLACEID}}, callback to showPoll
+  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=POLLINGID%3D%27{{POLLINGPLACEID}}%27&returnGeometry=true&outFields=*&outSR=4326&callback=showPoll",
+  getFirst: function( polldata ){
+    return polldata.features[0];
+  },
+  getID: function( poll ){
+    return poll.attributes.POLLINGID;
+  },
+  getName: function( poll ){
+    return poll.attributes.NAME.toLowerCase();
+  },
+  getLatLng: function( poll ){
+    // [lat, lng]
+    return [ poll.geometry.y, poll.geometry.x ];
+  },
+  getDetails: function( poll ){
+    // optional String
+    if(typeof poll.attributes.Voter_Entrance != "undefined" && poll.attributes.Voter_Entrance){
+      return poll.attributes.Voter_Entrance.toLowerCase();
+    }
+  }
+};
+
+// avoid console errors if missing
 if(typeof console == "undefined" || typeof console.log == "undefined"){
   console = { log: function(){ } };
 }
 
 // set up Google Maps
-
 google.maps.visualRefresh=true;
 var mapOptions = {
   center: new google.maps.LatLng( 42.322953, -71.098622 ),
@@ -20,23 +83,9 @@ var mapOptions = {
 var map = new google.maps.Map( $("#map")[0], mapOptions);
 var infoWindow = new google.maps.InfoWindow();
 
-// set up last-minute UI
-$(document).ready(function(){
-  // line up bottom of the map with bottom of the window
-  //$("#map").height( screen.height - $("#map").offset().top );
-  
-  // ensure clear button on search bar works
-  $("#topbar .ui-icon-delete").click(function(e){
-    $("#addsearch").val("");
-  });
-
-  // open splash screen
-  $.mobile.changePage('#splash_screen', 'pop', true, true);
-
-  // if this browser cannot geolocate, hide button
-  if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
-    $("#fromhere").css({ display: "none" });
-  }
+// tap to close info window
+google.maps.event.addListener(map, "click", function(e){
+  infoWindow.close();
 });
 
 // set up polling place info
@@ -57,15 +106,29 @@ var mydestination = null;
 var startmarker = null;
 var myTravelMode = null;
 
-// tap to close window AND/OR taps to find polling place
-google.maps.event.addListener(map, "click", function(e){
-  infoWindow.close();
+// set up last-minute UI
+$(document).ready(function(){
+  // line up bottom of the map with bottom of the window
+  //$("#map").height( screen.height - $("#map").offset().top );
+  
+  // ensure clear button on search bar works
+  $("#topbar .ui-icon-delete").click(function(e){
+    $("#addsearch").val("");
+  });
+
+  // open splash screen
+  $.mobile.changePage('#splash_screen', 'pop', true, true);
+
+  // if this browser cannot geolocate, hide button
+  if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
+    $("#fromhere").css({ display: "none" });
+  }
 });
 
 function attachMarker(poll, pollMarker){
   google.maps.event.addListener(pollMarker, "click", function(e){
     // write and open popup; include all voting precincts
-    var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
+    var content = "<div class='nowrap'>" + pollingPlace.getName( poll ) + "</div>";
     
     infoWindow.setContent( content );
     infoWindow.open(map, pollMarker);
@@ -84,29 +147,22 @@ function mapPrecinctPolygons(precinctData){
   }
   
   // load new precincts, if they were found
-  if(precinctData.features.length){
+  var features = precinct.getList( precinctData );
+  
+  if(features.length){
   
     // update infowindow
     var content = infoWindow.getContent();
   
-    for(var f=0;f<precinctData.features.length;f++){
-      var precinct = precinctData.features[f].geometry;
-      var rings = [ ];
+    for(var f=0;f<features.length;f++){
       // add to info window
       if(f){
         content += ", ";
       }
-      content += precinctData.features[f].attributes.NAME;
+      content += precinct.getName( features[f] );
       
-      for(var r=0; r<precinct.rings.length;r++){
-        var ring = [ ];
-        for(var pt=0; pt<precinct.rings[r].length; pt++){
-          ring.push( new google.maps.LatLng( precinct.rings[r][pt][1], precinct.rings[r][pt][0] ) );
-        }
-        rings.push(ring);
-      }
-      var precinct = new google.maps.Polygon({
-        paths: rings,
+      var precinctPoly = new google.maps.Polygon({
+        paths: precinct.getPolygon( features[f] ),
         strokeWeight: 1,
         strokeOpacity: 0.5,
         strokeColor: "#00f",
@@ -117,7 +173,7 @@ function mapPrecinctPolygons(precinctData){
         map: map
       });
 
-      visiblePrecincts.push( precinct );
+      visiblePrecincts.push( precinctPoly );
     }
     
     // update info window
@@ -135,7 +191,9 @@ function findPrecinctAndPoll( latlng ){
   // search for precinct matching this latlng
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/Precincts/MapServer/0/query?text=&geometry=%7Bx%3A+" + latlng.lng() + "%2C+y%3A+" + latlng.lat() + "+%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&returnGeometry=true&outSR=4326&outFields=*&f=json&callback=showPrecinctAndPoll";
+  var precinctURL = replaceAll( precinct.serviceUrl, "{{LNG}}", latlng.lng() );
+  precinctURL = replaceAll( precinctURL, "{{LAT}}", latlng.lat() );
+  s.src = precinctURL;
   $(document.body).append(s);
 }
 
@@ -143,11 +201,11 @@ function showPrecinctAndPoll( precinctData ){
   mapPrecinctPolygons( precinctData );
 
   // retrieve precinct ward and precinct, coded WWPP
-  wardAndPrecinct = precinctData.features[0].attributes.NAME;
+  wardAndPrecinct = precinct.getName( precinct.getList( precinctData )[0] );
 
   // look up polling place by precinct ID
   // this lookup table step is needed to connect a polling place to its precinct
-  var precinctID = precinctData.features[0].attributes.PRECINCTID;
+  var precinctID = precinct.getID( precinct.getList( precinctData )[0] );
 
   // if possible, switch URL to this precinct
   // this means back button will refresh page
@@ -162,7 +220,12 @@ function showPrecinctAndPoll( precinctData ){
 
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27" + precinctID + "%27&outFields=*&f=json&callback=showPollMarker";
+  if(typeof lookupTable != "undefined" && lookupTable){
+    s.src = replaceAll( lookupTable.serviceURL, "{{PRECINCTID}}", precinctID );
+  }
+  else{
+    s.src = replaceAll( pollingPlace.serviceURL, "{{POLLINGPLACEID}}", precinctID );
+  }
   $(document.body).append(s);
 }
 
@@ -172,11 +235,11 @@ function showPollMarker( lookupData ){
     displayEntrance = null;
   }
 
-  var pollingID = lookupData.features[0].attributes.POLLINGID;  
+  var pollingID = lookupTable.pollingPlaceId( lookupData );  
   if(typeof pollMarkers[ pollingID ] == "undefined"){
     var s = document.createElement("script");
     s.type = "text/javascript";
-    s.src = "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=POLLINGID%3D%27" + pollingID + "%27&returnGeometry=true&outFields=*&outSR=4326&callback=showPoll";
+    s.src = replaceAll( pollingPlace.serviceUrl, "{{POLLINGPLACEID}}", pollingID);
     $(document.body).append(s);
   }
   else{
@@ -185,15 +248,14 @@ function showPollMarker( lookupData ){
 }
 
 function showPoll(polldata){ 
-  var poll = polldata.features[0];
-  var pollingID = poll.attributes.POLLINGID;
+  var poll = pollingPlace.getFirst( polldata );
+  var pollingID = pollingPlace.getID( poll );
 
   if(typeof pollMarkers[ pollingID ] == "undefined"){
     // place a marker if previously unknown
-    var lat = poll.geometry.y;
-    var lng = poll.geometry.x;
+    var latlng = pollingPlace.getLatLng( poll );
     var pollMarker = new google.maps.Marker({
-      position: new google.maps.LatLng( lat, lng )
+      position: new google.maps.LatLng( latlng[0] * 1.0, latlng[1] * 1.0 )
     });
     
     // display district and info when I click this polling place
@@ -206,13 +268,22 @@ function showPoll(polldata){
     };
   }
 
-  var content = "<div class='nowrap'>" + poll.attributes.NAME.toLowerCase() + "</div>";
+  var content = "<div class='nowrap'>" + pollingPlace.getName( poll ) + "</div>";
 
   // include precinct ward and precinct, coded WWPP
-  content += "<div class='nowrap'>You Are: Ward " + wardAndPrecinct.substring(0,2) + ", Precinct " + wardAndPrecinct.substring(2) + "</div>";
+  content += "<div class='nowrap'>You Are: " + wardAndPrecinct + "</div>";
 
-  if(poll.attributes.Voter_Entrance){
-    content += poll.attributes.Voter_Entrance.toLowerCase();
+  var details = pollingPlace.getDetails( poll );
+  if(details){
+    content += details;
+    $("#entrance").text( details ).css({
+      display: "block"
+    });
+  }
+  else{
+    $("#entrance").css({
+      display: "none"
+    });
   }
   
   //content += "<br/><img width='250' height='250' src='http://maps.googleapis.com/maps/api/streetview?size=250x250&location=" + poll.attributes.FULLADD + "," + poll.attributes.CITY + "," + poll.attributes.STATE + "&fov=90&pitch=10&sensor=false'/><br/>";
@@ -224,16 +295,6 @@ function showPoll(polldata){
   selectMarker.setMap(map);
   
   $("#moreinfo").css({ visibility: "visible" });
-  if(poll.attributes.Voter_Entrance){
-    $("#entrance").text( poll.attributes.Voter_Entrance.toLowerCase() ).css({
-      display: "block"
-    });
-  }
-  else{
-    $("#entrance").css({
-      display: "none"
-    });
-  }
   
   if(directionsFrom){
     // show directions from stored point to the poll
@@ -435,4 +496,11 @@ function hideOfficialsWindow(){
   $("html, body, #map, .ui-body, .ui-page").css({
     overflow: "hidden"
   });
+}
+
+function replaceAll(src, oldr, newr){
+  while(src.indexOf(oldr) > -1){
+    src = src.replace(oldr, newr);
+  }
+  return src;
 }
