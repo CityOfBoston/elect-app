@@ -109,6 +109,7 @@ var displayEntrance = null;
 var mydestination = null;
 var startmarker = null;
 var myTravelMode = null;
+var hasAsked = false;
 
 // set up last-minute UI
 $(document).ready(function(){
@@ -343,6 +344,7 @@ function showDirections(startll, endll){
   }
   directionsService.route(request, function(result, status){
     if(status == google.maps.DirectionsStatus.OK){
+      hasAsked = false;
       directionsDisplay.setDirections(result);
       startmarker = new google.maps.Marker({
         map: map,
@@ -353,13 +355,16 @@ function showDirections(startll, endll){
       // if you click the start directions box, offer to reload the page
       // you can also refresh the page or press the back button
       setTimeout(function(){
-        $("#adp-placemark").click(function(e){
-          var restart = confirm('Find polling place for another address?')
-          if(restart){
-            var d = new Date();
-            window.location = "index.html?t=" + Math.round( d * 0.001 );
-          }
-        });
+        if(!hasAsked){
+          $("#adp-placemark").click(function(e){
+            var restart = confirm('Find polling place for another address?')
+            if(restart){
+              var d = new Date();
+              window.location = "index.html?t=" + Math.round( d * 0.001 );
+            }
+          });
+          hasAsked = true;
+        }
       }, 500);
     }
   });
