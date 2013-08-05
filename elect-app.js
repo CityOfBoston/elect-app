@@ -10,7 +10,10 @@ var precinct = {
     return "Ward " + name.substring(0,2) + ", Precinct " + name.substring(2);
   },
   getID: function(precinctFeature){
-    return precinctFeature.attributes.PRECINCTID;
+    return precinctFeature.attributes.PRECINCTID.substring(2) * 1;
+  },
+  getWardID: function(precinctFeature){
+    return precinctFeature.attributes.PRECINCTID.substring(0,2) * 1;
   },
   getPolygon: function(precinctFeature){
     // polygon coordinates [ [ [lat, lng], [lat, lng], [lat, lng] ] ]
@@ -32,24 +35,25 @@ var precinct = {
 
 // set to null if you can directly use precinct's PRECINCTID === polling place's POLLINGPLACEID
 var lookupTable = {
-  // URL with {{PRECINCTID}}, callback to showPollMarker
-  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/2/query?where=PRECINCTID%3D%27{{PRECINCTID}}%27&outFields=*&f=json&callback=showPollMarker",
+  // URL with {{PRECINCTID}}, {{WARDID}}, callback to showPollMarker
+  
+  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/MapServer/2/query?where=Ward%3D{{WARDID}}%20AND%20Precinct%3D{{PRECINCTID}}&outFields=*&f=json&callback=showPollMarker",
   pollingPlaceId: function(lookupData){
-    return lookupData.features[0].attributes.POLLINGID;
+    return lookupData.features[0].attributes.Voting_id;
   }
 };
 
 var pollingPlace = {
   // URL with {{POLLINGPLACEID}}, callback to showPoll
-  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/FeatureServer/0/query?f=json&where=POLLINGID%3D%27{{POLLINGPLACEID}}%27&returnGeometry=true&outFields=*&outSR=4326&callback=showPoll",
+  serviceUrl: "http://maps.cityofboston.gov/ArcGIS/rest/services/PublicProperty/PollingPlaces/MapServer/0/query?where=Voting+%3D+{{POLLINGPLACEID}}&returnGeometry=true&outFields=*&f=json&outSR=4326&callback=showPoll",
   getFirst: function( polldata ){
     return polldata.features[0];
   },
   getID: function( poll ){
-    return poll.attributes.POLLINGID;
+    return poll.attributes.Voting;
   },
   getName: function( poll ){
-    return poll.attributes.NAME.toLowerCase();
+    return poll.attributes.Building.toLowerCase();
   },
   getLatLng: function( poll ){
     // [lat, lng]
@@ -57,8 +61,8 @@ var pollingPlace = {
   },
   getDetails: function( poll ){
     // optional String
-    if(typeof poll.attributes.Voter_Entrance != "undefined" && poll.attributes.Voter_Entrance){
-      return poll.attributes.Voter_Entrance.toLowerCase();
+    if(typeof poll.attributes.HPEntranceOnly != "undefined" && poll.attributes.HPEntranceOnly){
+      return poll.attributes.HPEntranceOnly.toLowerCase();
     }
   }
 };
@@ -213,6 +217,7 @@ function showPrecinctAndPoll( precinctData ){
   // look up polling place by precinct ID
   // this lookup table step is needed to connect a polling place to its precinct
   var precinctID = precinct.getID( precinct.getList( precinctData )[0] );
+  var wardID = precinct.getWardID( precinct.getList( precinctData )[0] );
 
   // if possible, switch URL to this precinct
   // this means back button will refresh page
@@ -228,7 +233,7 @@ function showPrecinctAndPoll( precinctData ){
   var s = document.createElement("script");
   s.type = "text/javascript";
   if(typeof lookupTable != "undefined" && lookupTable){
-    s.src = replaceAll( lookupTable.serviceUrl, "{{PRECINCTID}}", precinctID );
+    s.src = replaceAll( replaceAll( lookupTable.serviceUrl, "{{PRECINCTID}}", precinctID ), "{{WARDID}}", wardID );
   }
   else{
     s.src = replaceAll( pollingPlace.serviceUrl, "{{POLLINGPLACEID}}", precinctID );
