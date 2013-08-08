@@ -37,4 +37,7 @@
   #searchbutton{
     display: block;
   }
+  #restartsearch{
+    display: block;
+  }
 }

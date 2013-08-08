@@ -370,6 +370,14 @@ function showDirections(startll, endll){
   });
 }
 
+$("#restartsearch").click(function(e){
+  var restart = confirm('Find polling place for another address?')
+  if(restart){
+    var d = new Date();
+    window.location = "index.html?t=" + Math.round( d * 0.001 );
+  }
+});
+
 function searchAddress(){
   // check that some text was submitted
   var searched = $("#addsearch").val();

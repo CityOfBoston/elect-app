@@ -46,3 +46,9 @@ html, body, #map, .ui-body, .ui-page{
 #searchbutton{
   display: none;
 }
+#restartsearch{
+  display: none;
+  zoom: 0.6;
+  font-weight: normal;
+  width: 40%;
+}
