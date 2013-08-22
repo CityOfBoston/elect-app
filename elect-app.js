@@ -413,14 +413,16 @@ function directionsFromMe(){
 
 function travelMode(){
   // determine user's travel mode
-  var modes = $(".transitmode");
-  for(var m=0;m<modes.length;m++){
-    if(modes[m].checked && modes[m].value != myTravelMode){
-      myTravelMode = modes[m].value;
-      showDirections( directionsFrom, mydestination );
-      return;
+  setTimeout(function(){
+    var modes = $(".transitmode");
+    for(var m=0;m<modes.length;m++){
+      if(modes[m].checked && modes[m].value != myTravelMode){
+        myTravelMode = modes[m].value;
+        showDirections( directionsFrom, mydestination );
+        return;
+      }
     }
-  }
+  }, 150);
 }
 
 function checkForEnter(e){
