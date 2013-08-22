@@ -422,7 +422,7 @@ function travelMode(){
         return;
       }
     }
-  }, 150);
+  }, 200);
 }
 
 function checkForEnter(e){
