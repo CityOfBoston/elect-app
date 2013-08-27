@@ -128,6 +128,14 @@ $(document).ready(function(){
   if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
     $("#fromhere").css({ display: "none" });
   }
+  
+  // hide search button on iOS
+  var userAgent = (navigator.userAgent + "").toLowerCase();
+  if(userAgent.indexOf("iphone") > -1 || userAgent.indexOf("ipad") > -1 || userAgent.indexOf("ios") > -1){
+    $(".ui-icon-searchfield").removeClass("ui-icon-searchfield");
+    $("#addsearch")[0].type = "search";
+    $("#addsearch").on('blur', searchAddress);
+  }
 });
 
 function attachMarker(poll, pollMarker){
