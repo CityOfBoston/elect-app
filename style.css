@@ -53,3 +53,6 @@ html, body, #map, .ui-body, .ui-page{
 #restartsearch .ui-btn-inner{
   padding: 0.2em 6px;
 }
+#betalogo{
+  display: none;
+}

@@ -8,6 +8,7 @@
   </head>
   <body>
     <div id="topbar" data-role="header" role="banner" class="ui-header ui-bar-a">
+      <!--
       <div id="officials-btn">
         <a id="officials-btn-inner" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#" onclick="showOfficialsWindow()">
           <span class="ui-btn-inner">
@@ -15,7 +16,8 @@
           </span>
         </a>
       </div>
-      <h1 class="ui-title" role="heading">Voting Locations</h1>
+      -->
+      <h1 class="ui-title" role="heading">Polling Locations</h1>
     </div>
     <div data-role="content" class="ui-body">
       <div id="map">
@@ -29,12 +31,12 @@
 
     <div id="splash_screen" data-role="dialog">
       <div class="ui-bar ui-bar-b">
-        <h1>Voting Locations Map</h1>
+        <h1>Polling Locations Map</h1>
       </div>
       <div id="splash_inner" data-role="content">
         <p>
           <img src="bostonlogo.png" style="float:left;padding-right:10px;padding-bottom:10px;"/>
-          Welcome to Boston's Voting Locations Map
+          Welcome to Boston's Polling Locations Map
           <br/>
           <br/>
           Enter your home address to find your polling place
@@ -127,13 +129,24 @@
     </div>
     
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
-    <link type="text/css" rel="stylesheet" media="all" href="style.css?v=3"/>
-    <link type="text/css" rel="stylesheet" media="all" href="bigscreen.css?v=3"/>
+    <link type="text/css" rel="stylesheet" media="all" href="style.css?v=4"/>
+    <link type="text/css" rel="stylesheet" media="all" href="bigscreen.css?v=4"/>
     <!--[if lte IE 8]>
-      <link type="text/css" rel="stylesheet" media="all" href="style-old-ie.css?v=3"/>
+      <link type="text/css" rel="stylesheet" media="all" href="style-old-ie.css?v=4"/>
     <![endif]-->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" src="elect-app.js?v=4"></script>
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-3838275-6']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+    </script>
+    <img id="betalogo" src="beta85.png" height="80" width="80" style="position:absolute;bottom:10px;left:10px;"/>
   </body>
 </html>
