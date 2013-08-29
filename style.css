@@ -55,4 +55,32 @@ html, body, #map, .ui-body, .ui-page{
 }
 #betalogo{
   display: none;
+  position:absolute;
+  bottom:20px;
+  left:50px;
+  text-align: center;
+}
+#betalogo img{
+  height: 80px;
+  width: 80px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#betalogo a{
+  text-decoration: none;
+  color: orange;
+  font-family: Helvetica,Arial,sans-serif;
+}
+#betalogo a:hover{
+  text-decoration: underline;
+}
+#betalogo a img{
+  text-decoration: none !important;
+}
+#feedback{
+  display: none;
+  position: absolute;
+  top: 50px;
+  margin-left: auto;
+  margin-right: auto;
 }
