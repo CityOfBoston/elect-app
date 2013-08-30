@@ -1,5 +1,5 @@
 /* overwrite jQuery Mobile styles on tablet and large screens */
-@media (min-width: 760px) {
+@media (min-width: 800px) {
   .ui-body{
     width: 70%;
     float: right;
