@@ -40,4 +40,7 @@
   #betalogo{
     display: block;
   }
+  #mobilefeedback{
+    display: none;
+  }
 }
