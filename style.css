@@ -104,16 +104,10 @@ html, body, #map, .ui-body, .ui-page{
   font-size:15px;
   font-weight:normal;
   font-style:normal;
-  height:65px;
-  line-height:65px;
-  width:131px;
   text-decoration:none;
   text-align:center;
   text-shadow:1px 1px 0px #cd8a15;
-}
-#transitmodebutton button:hover {
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
-  background-color:#d29105;
+  padding: 5px;
 }
 #transitmodebutton button:active {
   position:relative;
