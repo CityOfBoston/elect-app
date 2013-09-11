@@ -421,16 +421,19 @@ function directionsFromMe(){
 
 function travelMode(){
   // determine user's travel mode
-  setTimeout(function(){
-    var modes = $(".transitmode");
-    for(var m=0;m<modes.length;m++){
-      if(modes[m].checked && modes[m].value != myTravelMode){
-        myTravelMode = modes[m].value;
-        showDirections( directionsFrom, mydestination );
-        return;
-      }
+  var modes = $(".transitmode");
+  for(var m=0;m<modes.length;m++){
+    if(modes[m].checked && modes[m].value != myTravelMode){
+      myTravelMode = modes[m].value;
+      showDirections( directionsFrom, mydestination );
+      return;
     }
-  }, 200);
+  }
+}
+function travelModeBtn(selectMode){
+  // IE backup
+  myTravelMode = selectMode;
+  showDirections( directionsFrom, mydestination );
 }
 
 function checkForEnter(e){

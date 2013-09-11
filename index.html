@@ -5,6 +5,15 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, minimum-scale=1, maximum-scale=1" />
     <title>Election Maps</title>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="style.css?v=6"/>
+    <link type="text/css" rel="stylesheet" media="all" href="bigscreen.css?v=6"/>
+    <!--[if lte IE 8]>
+      <link type="text/css" rel="stylesheet" media="all" href="style-old-ie.css?v=6"/>
+    <![endif]-->
+    <!--[if IE]>
+      <style type="text/css">#transitmoderadio{ display: none; } #transitmodebutton{ display: block; }</style>
+    <![endif]-->
   </head>
   <body>
     <div id="topbar" data-role="header" role="banner" class="ui-header ui-bar-a">
@@ -69,7 +78,7 @@
         </a>
       </div>
       <div id="directions_screen" data-role="content" class="ui-content ui-body-c">
-        <fieldset data-role="controlgroup" data-mini="true">
+        <fieldset id="transitmoderadio" data-role="controlgroup" data-mini="true">
           <label for="mode-mini-1">
             <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-1" value="walk" checked="checked" onchange="travelMode()"/>
             Walk
@@ -82,6 +91,11 @@
             <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-3" value="drive" onchange="travelMode()"/>
             Drive
           </label>
+        </fieldset>
+        <fieldset id="transitmodebutton" data-role="controlgroup" data-mini="true">
+          <button onclick="travelModeBtn('walk')">Walk</button>
+          <button onclick="travelModeBtn('transit')">Transit</button>
+          <button onclick="travelModeBtn('drive')">Drive</button>
         </fieldset>
         <div id="directions_readout">
         </div>
@@ -130,13 +144,6 @@
         </ul>
       </div>
     </div>
-    
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
-    <link type="text/css" rel="stylesheet" media="all" href="style.css?v=6"/>
-    <link type="text/css" rel="stylesheet" media="all" href="bigscreen.css?v=6"/>
-    <!--[if lte IE 8]>
-      <link type="text/css" rel="stylesheet" media="all" href="style-old-ie.css?v=6"/>
-    <![endif]-->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" src="elect-app.js?v=6"></script>
