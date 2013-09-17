@@ -394,12 +394,7 @@ function searchAddress(){
   }
   
   // hide splash screen
-  if($('#splash_screen').length){
-    $('#splash_screen').parent()[0].removeChild( $('#splash_screen')[0] );
-  }
-  if($('#splash_screen').length){
-    $('#splash_screen').parent()[0].removeChild( $('#splash_screen')[0] );
-  }
+  $('#splash_screen').css({ display: "none" });
 
   // if not specified, tell Google that this address is inside the city
   if(searched.toLowerCase().indexOf("boston") == -1){
