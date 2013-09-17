@@ -26,7 +26,7 @@
         </a>
       </div>
       -->
-      <h1 class="ui-title" role="heading">Polling Locations</h1>
+      <h1 class="ui-title" role="heading">Polling Places</h1>
     </div>
     <div data-role="content" class="ui-body">
       <div id="map">
@@ -41,19 +41,25 @@
     <div id="splash_screen" class="splash_screen ui-page ui-body-c ui-dialog ui-overlay-a ui-page-active" data-role="dialog">
       <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
         <div class="ui-bar ui-bar-b">
-          <h1>Polling Locations Map</h1>
+          <h1>Polling Places</h1>
         </div>
         <div id="splash_inner" data-role="content" class="ui-content ui-body-c" role="main">
           <p>
             <img src="bostonlogo.png" style="float:left;padding-right:10px;padding-bottom:10px;">
-            Welcome to Boston's Polling Locations Map
+            Welcome to Boston's Polling Places Map
             <br>
             <br>
             Enter your home address to find your polling place
           </p>
-          <form>
-            <div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c"><input type="text" data-type="search" id="addsearch" value="" onkeypress="checkForEnter(event);" x-webkit-speech="" speech="" onwebkitspeechchange="searchAddress();" onspeechchange="searchAddress();" class="ui-input-text ui-body-c"><a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>
-          </form>
+            <div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c">
+              <input type="text" data-type="search" id="addsearch" value="" onkeypress="checkForEnter(event);" x-webkit-speech="" speech="" onwebkitspeechchange="searchAddress();" onspeechchange="searchAddress();" class="ui-input-text ui-body-c">
+              <a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false">
+                <span class="ui-btn-inner">
+                  <span class="ui-btn-text">clear text</span>
+                  <span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span>
+                </span>
+              </a>
+            </div>
           <a id="searchbutton" onclick="searchAddress();" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#">
             <span class="ui-btn-inner">
               <span class="ui-btn-text">Search</span>
