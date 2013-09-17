@@ -122,7 +122,7 @@ $(document).ready(function(){
   });
 
   // open splash screen
-  $.mobile.changePage('#splash_screen', 'pop', true, true);
+  $.mobile.changePage('.splash_screen', 'pop', true, true);
 
   // if this browser cannot geolocate, hide button
   if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
@@ -331,7 +331,12 @@ function showDirections(startll, endll){
     $("#moreinfo_screen").css({ visibility: "visible" });
   }
   
+  /*
   $("#officials-btn").css({ display: "block" });
+  */
+
+  // hide splash screen
+  $('.splash_screen').css({ display: "none" });
   
   var travel = google.maps.DirectionsTravelMode.WALKING;
   if(myTravelMode){
@@ -352,8 +357,6 @@ function showDirections(startll, endll){
   }
   directionsService.route(request, function(result, status){
     if(status == google.maps.DirectionsStatus.OK){
-      // hide splash screen
-      $('#splash_screen, #splash_screen div').css({ display: "none" });
       
       hasAsked = false;
       directionsDisplay.setDirections(result);
