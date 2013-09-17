@@ -122,7 +122,7 @@ $(document).ready(function(){
   });
 
   // open splash screen
-  $.mobile.changePage('.splash_screen', 'pop', true, true);
+  $.mobile.changePage('#splash_screen', 'pop', true, true);
 
   // if this browser cannot geolocate, hide button
   if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
@@ -231,7 +231,7 @@ function showPrecinctAndPoll( precinctData ){
   // if possible, switch URL to this precinct
   // this means back button will refresh page
   if(typeof history != "undefined" && typeof history.pushState != "undefined"){
-    //history.pushState(null, null, "?p=" + precinctID);
+    history.pushState(null, null, "?p=" + precinctID);
 	window.onpopstate = function(e) {
 	  // hit back button -> go back to start
 	  var t = new Date();
@@ -331,12 +331,7 @@ function showDirections(startll, endll){
     $("#moreinfo_screen").css({ visibility: "visible" });
   }
   
-  /*
   $("#officials-btn").css({ display: "block" });
-  */
-
-  // hide splash screen
-  $('.splash_screen').css({ display: "none" });
   
   var travel = google.maps.DirectionsTravelMode.WALKING;
   if(myTravelMode){
@@ -357,7 +352,6 @@ function showDirections(startll, endll){
   }
   directionsService.route(request, function(result, status){
     if(status == google.maps.DirectionsStatus.OK){
-      
       hasAsked = false;
       directionsDisplay.setDirections(result);
       startmarker = new google.maps.Marker({
@@ -397,6 +391,14 @@ function searchAddress(){
   var searched = $("#addsearch").val();
   if(!searched.length){
     return;
+  }
+  
+  // hide splash screen
+  if($('#splash_screen').length){
+    $('#splash_screen').parent()[0].removeChild( $('#splash_screen')[0] );
+  }
+  if($('#splash_screen').length){
+    $('#splash_screen').parent()[0].removeChild( $('#splash_screen')[0] );
   }
 
   // if not specified, tell Google that this address is inside the city
