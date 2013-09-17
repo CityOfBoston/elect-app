@@ -352,6 +352,9 @@ function showDirections(startll, endll){
   }
   directionsService.route(request, function(result, status){
     if(status == google.maps.DirectionsStatus.OK){
+      // hide splash screen
+      $('#splash_screen, #splash_screen div').css({ display: "none" });
+      
       hasAsked = false;
       directionsDisplay.setDirections(result);
       startmarker = new google.maps.Marker({
@@ -392,9 +395,6 @@ function searchAddress(){
   if(!searched.length){
     return;
   }
-  
-  // hide splash screen
-  $('#splash_screen, #splash_screen div').css({ display: "none" });
 
   // if not specified, tell Google that this address is inside the city
   if(searched.toLowerCase().indexOf("boston") == -1){
