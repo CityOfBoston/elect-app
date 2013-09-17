@@ -394,7 +394,7 @@ function searchAddress(){
   }
   
   // hide splash screen
-  $('#splash_screen').css({ display: "none" });
+  $('#splash_screen, #splash_screen div').css({ display: "none" });
 
   // if not specified, tell Google that this address is inside the city
   if(searched.toLowerCase().indexOf("boston") == -1){
