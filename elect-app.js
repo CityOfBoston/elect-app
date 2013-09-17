@@ -122,7 +122,7 @@ $(document).ready(function(){
   });
 
   // open splash screen
-  $.mobile.changePage('#splash_screen', 'pop', true, true);
+  $('#splash_screen').css({ display: "block" });
 
   // if this browser cannot geolocate, hide button
   if(typeof navigator.geolocation == "undefined" || typeof navigator.geolocation.getCurrentPosition == "undefined"){
@@ -465,7 +465,6 @@ function directionsWindow(){
   if(typeof window.onpopstate != "undefined"){
     window.onpopstate = function(e){ };
   }
-  $.mobile.changePage('#moreinfo_screen', 'pop', true, true);
 
   // make everything scrollable in a way that Android < 3 can handle
   $("html, body, #map, .ui-body, .ui-page").css({
