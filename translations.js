@@ -21,6 +21,23 @@ var translations = {
     welcome: "Welcome to Boston's Polling Places Map",
     enteraddress: "Enter your home address to find your polling place"
   },
+  "es*": {
+    pollingplaces: "Centros de Votación",
+    directions: "Cómo Llegar",
+    mydirections: "Mi Ruta para llegar",
+    cleartext: "Borrar contenido",
+    search: "Búsqueda",
+    close: "Cerrar",
+    uselocation: "Utilizar mi ubicación",
+    walk: "Andar",
+    drive: "Manejar",
+    transit: "Transporte Público",
+    entrance: "Entrada",
+    feedback: "Envíar Comentarios",
+    restart: "Reiniciar Búsqueda",
+    welcome: "Bienvenidos al Mapa de Centros de Votación de Boston",
+    enteraddress: "Ingrese su dirección para encontrar su centro de votación"
+  },
   "de*": {
     pollingplaces: "Wahllokale",
     directions: "Route",
