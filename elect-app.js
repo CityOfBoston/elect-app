@@ -110,6 +110,7 @@ var mydestination = null;
 var startmarker = null;
 var myTravelMode = null;
 var hasAsked = false;
+var geolocationBlock = false;
 
 // set up last-minute UI
 $(document).ready(function(){
@@ -234,8 +235,13 @@ function showPrecinctAndPoll( precinctData ){
     history.pushState(null, null, "?p=" + precinctID);
 	window.onpopstate = function(e) {
 	  // hit back button -> go back to start
-	  var t = new Date();
-	  window.location = "index.html?start=" + Math.round(t * 0.001);
+	  if(!geolocationBlock){
+	    var t = new Date();
+	    window.location = "index.html?start=" + Math.round(t * 0.001);
+	  }
+	  else{
+	    geolocationBlock = false;
+	  }
 	};
   }
 
@@ -413,6 +419,7 @@ function searchAddress(){
 
 function directionsFromMe(){
   // recalculate directions from current location
+  geolocationBlock = true;
   navigator.geolocation.getCurrentPosition(function(position){
     directionsFrom = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
     showDirections(directionsFrom, mydestination);
@@ -457,9 +464,6 @@ if(myTravelMode){
 
 function directionsWindow(){
   $("#moreinfo_screen").css({ display: "block" });
-  if(typeof window.onpopstate != "undefined"){
-    window.onpopstate = function(e){ };
-  }
 
   // make everything scrollable in a way that Android < 3 can handle
   $("html, body, #map, .ui-body, .ui-page").css({
