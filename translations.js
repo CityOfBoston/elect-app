@@ -36,7 +36,7 @@ var translations = {
     feedback: "Feedback senden",
     restart: "Erneut suchen",
     welcome: "Willkommen zu Bostons Wahllokal-Karte",
-    enteraddress: "Geben Sie Ihre Adresse ein um in Ihrer Nähe zu suchen"
+    enteraddress: "Geben Sie Ihre Adresse ein, um Ihr Wahllokal zu finden"
   }
 };
 
