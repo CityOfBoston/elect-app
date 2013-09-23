@@ -231,7 +231,7 @@ function showPrecinctAndPoll( precinctData ){
 
   // if possible, switch URL to this precinct
   // this means back button will refresh page
-  if(typeof history != "undefined" && typeof history.pushState != "undefined"){
+  if(typeof history != "undefined" && typeof history.pushState != "undefined" && $("#moreinfo").css("display") == "none"){
     history.pushState(null, null, "?p=" + precinctID);
 	window.onpopstate = function(e) {
 	  // hit back button -> go back to start
