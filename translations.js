@@ -1,3 +1,8 @@
+// bilingual? please help translate Boston's Election App
+
+// if you're on GitHub: make a pull request to https://github.com/CityOfBoston/elect-app/
+// want to e-mail a translation? Contact nick.doiron@cityofboston.gov
+
 var translations = {
   "en*": {
     pollingplaces: "Polling Places",
