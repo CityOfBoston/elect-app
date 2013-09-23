@@ -20,6 +20,23 @@ var translations = {
     restart: "Restart Search",
     welcome: "Welcome to Boston's Polling Places Map",
     enteraddress: "Enter your home address to find your polling place"
+  },
+  "de*": {
+    pollingplaces: "Wahllokale",
+    directions: "Route",
+    mydirections: "Meine Route",
+    cleartext: "Text löschen",
+    search: "Suche",
+    close: "Schließen",
+    uselocation: "Meine Position",
+    walk: "Laufen",
+    drive: "Auto",
+    transit: "Bus+Bahn",
+    entrance: "Eingang",
+    feedback: "Feedback senden",
+    restart: "Erneut suchen",
+    welcome: "Willkommen zu Bostons Wahllokal-Karte",
+    enteraddress: "Geben Sie Ihre Adresse ein um in Ihrer Nähe zu suchen"
   }
 };
 
