@@ -108,16 +108,18 @@ var translations = {
   }
 };
 
-var userLang = window.navigator.userLanguage || window.navigator.language;
-if(userLang){
-  userLang = userLang.toLowerCase();
-  for(var lang in translations){
-    var langreg = new RegExp(lang);
-    if(langreg.test(userLang)){
-      for(var label in translations[lang]){
-        $(".label_" + label).text( translations[lang][label] );
+$(document).ready(function(){
+  var userLang = window.navigator.userLanguage || window.navigator.language;
+  if(userLang){
+    userLang = userLang.toLowerCase();
+    for(var lang in translations){
+      var langreg = new RegExp(lang);
+      if(langreg.test(userLang)){
+        for(var label in translations[lang]){
+          $(".label_" + label).text( translations[lang][label] );
+        }
+        break;
       }
-      break;
     }
   }
-}
+});
