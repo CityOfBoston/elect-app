@@ -54,6 +54,40 @@ var translations = {
     restart: "Erneut suchen",
     welcome: "Willkommen zu Bostons Wahllokal-Karte",
     enteraddress: "Geben Sie Ihre Adresse ein, um Ihr Wahllokal zu finden"
+  },
+  "^(cn|zh)": {
+    pollingplaces: "投票站",
+    directions: "路線",
+    mydirections: "我的指示",
+    cleartext: "清除內容",
+    search: "搜索",
+    close: "關閉",
+    uselocation: "用我所在地",
+    walk: "步行",
+    drive: "駕駛",
+    transit: "公共交通",
+    entrance: "入口",
+    feedback: "分享意見",
+    restart: "重新搜索",
+    welcome: "歡迎瀏覽波士頓投票站地圖",
+    enteraddress: "為方便找您的投票站，請輸入您的家庭住址"
+  },
+  "vi*": {
+    pollingplaces: "Địa điểm bỏ phiếu",
+    directions: "Lối đi",
+    mydirections: "Lối đi của tôi",
+    cleartext: "Xóa",
+    search: "Tìm",
+    close: "Đóng",
+    uselocation: "Dùng vị trí của tôi",
+    walk: "Đi bộ",
+    drive: "Lái xe",
+    transit: "Lưu Thông Công Cộng",
+    entrance: "Lối vào",
+    feedback: "Cho ý kiến",
+    restart: "Khởi động lại ",
+    welcome: "Chào mừng quý vị đến bản đồ địa điểm bỏ phiếu của TP Boston",
+    enteraddress: "Nhập địa chỉ nhà của quý vị tìm địa điểm bỏ phiếu của quý vị"
   }
 };
 
