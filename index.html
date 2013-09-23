@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, minimum-scale=1, maximum-scale=1" />
-    <title>Election Maps</title>
+    <title>Polling Places Map</title>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
     <link type="text/css" rel="stylesheet" media="all" href="style.css?v=6"/>
@@ -21,7 +21,7 @@
       </div>
       <a id="moreinfo" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#" onclick="directionsWindow()">
         <span class="ui-btn-inner">
-          <span class="ui-btn-text">My Directions</span>
+          <span class="ui-btn-text label_mydirections">My Directions</span>
         </span>
       </a>
     </div>
@@ -29,28 +29,28 @@
     <div id="splash_screen" class="splash_screen ui-page ui-body-c ui-dialog ui-overlay-a ui-page-active" data-role="dialog">
       <div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
         <div class="ui-bar ui-bar-b">
-          <h1>Polling Places</h1>
+          <h1 class="label_pollingplaces">Polling Places</h1>
         </div>
         <div id="splash_inner" data-role="content" class="ui-content ui-body-c" role="main">
           <p>
             <img src="bostonlogo.png" style="float:left;padding-right:10px;padding-bottom:10px;">
-            Welcome to Boston's Polling Places Map
+            <span class="label_welcome">Welcome to Boston's Polling Places Map</span>
             <br>
             <br>
-            Enter your home address to find your polling place
+            <span class="label_enteraddress">Enter your home address to find your polling place</span>
           </p>
             <div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c">
               <input type="text" data-type="search" id="addsearch" value="" onkeypress="checkForEnter(event);" x-webkit-speech="" speech="" onwebkitspeechchange="searchAddress();" onspeechchange="searchAddress();" class="ui-input-text ui-body-c">
               <a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false">
                 <span class="ui-btn-inner">
-                  <span class="ui-btn-text">clear text</span>
+                  <span class="ui-btn-text label_cleartext">clear text</span>
                   <span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span>
                 </span>
               </a>
             </div>
           <a id="searchbutton" onclick="searchAddress();" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#">
             <span class="ui-btn-inner">
-              <span class="ui-btn-text">Search</span>
+              <span class="ui-btn-text label_search">Search</span>
             </span>
           </a>
         </div>
@@ -62,14 +62,14 @@
         <!-- Close button -->
         <a href="#" onclick="hideDirectionsWindow();" data-icon="delete" data-iconpos="notext" class="ui-btn-left ui-btn ui-btn-icon-notext ui-btn-corner-all ui-shadow ui-btn-down-d ui-btn-up-d dialog-close" title="Close" data-theme="d">
           <span class="ui-btn-inner ui-btn-corner-all">
-            <span class="ui-btn-text">Close</span>
+            <span class="ui-btn-text label_close">Close</span>
             <span class="ui-icon ui-icon-delete ui-icon-shadow"></span>
           </span>
         </a>
-        <h1>Directions</h1>
+        <h1 class="label_directions">Directions</h1>
         <a id="fromhere" onclick="directionsFromMe();" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#">
           <span class="ui-btn-inner">
-            <span class="ui-btn-text">Use My Location</span>
+            <span class="ui-btn-text label_uselocation">Use My Location</span>
           </span>
         </a>
       </div>
@@ -77,47 +77,45 @@
         <fieldset id="transitmoderadio" data-role="controlgroup" data-mini="true">
           <label for="mode-mini-1">
             <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-1" value="walk" checked="checked" onchange="travelMode()"/>
-            Walk
+            <span class="label_walk">Walk</span>
           </label>
           <label for="mode-mini-2">
             <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-2" value="transit" onchange="travelMode()"/>
-            Transit
+            <span class="label_transit">Transit</span>
           </label>
           <label for="mode-mini-3">
             <input class="transitmode" type="radio" name="mode-mini" id="mode-mini-3" value="drive" onchange="travelMode()"/>
-            Drive
+            <span class="label_drive">Drive</span>
           </label>
         </fieldset>
         <fieldset id="transitmodebutton" data-role="controlgroup" data-mini="true">
-          <button onclick="travelModeBtn('walk')">Walk</button>
-          <button onclick="travelModeBtn('transit')">Transit</button>
-          <button onclick="travelModeBtn('drive')">Drive</button>
+          <button class="label_walk" onclick="travelModeBtn('walk')">Walk</button>
+          <button class="label_transit" onclick="travelModeBtn('transit')">Transit</button>
+          <button class="label_drive" onclick="travelModeBtn('drive')">Drive</button>
         </fieldset>
         <div id="directions_readout">
         </div>
-        <h2 id="entrance"></h2>
+        <h2 id="entrance" class="label_entrance"></h2>
         <hr/>
         <div id="mobilefeedback">
-          <a href="mailto:egis@cityofboston.gov">Send Feedback</a>
+          <a href="mailto:egis@cityofboston.gov" class="label_feedback">Send Feedback</a>
         </div>
         <a id="restartsearch" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-role="button" data-theme="b" href="#">
           <span class="ui-btn-inner">
-            <span class="ui-btn-text">Restart Search</span>
+            <span class="ui-btn-text label_restart">Restart Search</span>
           </span>
         </a>
       </div>
     </div>
     
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <!--
-    <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
-    -->
     <script type="text/javascript" src="elect-app.js?v=10"></script>
+    <script type="text/javascript" src="translations.js"></script>
     <div id="betalogo">
       <a href="mailto:egis@cityofboston.gov">
         <img src="beta85.png"/>
         <br/>
-        <span>Send Feedback</span>
+        <span class="label_feedback">Send Feedback</span>
       </a>
     </div>
     <script type="text/javascript">
