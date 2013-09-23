@@ -85,9 +85,26 @@ var translations = {
     transit: "Lưu Thông Công Cộng",
     entrance: "Lối vào",
     feedback: "Cho ý kiến",
-    restart: "Khởi động lại ",
+    restart: "Khởi động lại",
     welcome: "Chào mừng quý vị đến bản đồ địa điểm bỏ phiếu của TP Boston",
     enteraddress: "Nhập địa chỉ nhà của quý vị tìm địa điểm bỏ phiếu của quý vị"
+  },
+  "ht*": {
+    pollingplaces: "Biwo Vòte",
+    directions: "Direksyon",
+    mydirections: "Direksyon m '",
+    cleartext: "Efase",
+    search: "Chèche",
+    close: "Fèmen",
+    uselocation: "Sèvi ak kote mwen an",
+    walk: "Mache",
+    drive: "Kondwi",
+    transit: "Transpò Piblik",
+    entrance: "Antre",
+    feedback: "Voye Fidbak",
+    restart: "Rekòmanse Rechèch",
+    welcome: "Byenveni nan biwo vòte nan Boston kat jeyografik",
+    enteraddress: "Ekri adrès lakay ou pou jwenn biwo vòte ou an"
   }
 };
 
