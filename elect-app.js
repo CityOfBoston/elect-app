@@ -323,6 +323,12 @@ function showPoll(polldata){
   selectMarker.setMap(map);
   
   $("#moreinfo").css({ visibility: "visible" });
+  if($("#moreinfo").css("display") == "none"){
+    $("#moreinfo_screen").css({
+      "overflow-y": "scroll",
+      "max-height": $(document.body).height() - 10 + "px"
+    });
+  }
   
   if(directionsFrom){
     // show directions from stored point to the poll
