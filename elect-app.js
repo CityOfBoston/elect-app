@@ -299,7 +299,7 @@ function showPoll(polldata){
   var content = "<div class='nowrap'>" + pollingPlace.getName( poll ) + "</div>";
 
   // include precinct ward and precinct, coded WWPP
-  content += "<div class='nowrap'>You Are: " + wardAndPrecinct + "</div>";
+  content += "<div class='nowrap'>" + wardAndPrecinct + "</div>";
 
   var details = pollingPlace.getDetails( poll );
   if(details){

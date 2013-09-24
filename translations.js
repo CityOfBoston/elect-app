@@ -120,9 +120,6 @@ if(userLang){
   for(var lang in translations){
     var langreg = new RegExp(lang);
     if(langreg.test(userLang)){
-      if(getURLVar("lang") && translations[lang]["googlemaps"]){
-        $("#mapsscript")[0].src = "http://maps.googleapis.com/maps/api/js?sensor=false&language=" + translations[lang]["googlemaps"];
-      }
       $(document).ready(function(){
         for(var label in translations[lang]){
           $(".label_" + label).text( translations[lang][label] );
