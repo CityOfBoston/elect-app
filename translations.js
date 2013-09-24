@@ -4,7 +4,7 @@
 // want to e-mail a translation? Contact nick.doiron@cityofboston.gov
 
 var translations = {
-  "^en*": {
+  "^(en)": {
     pollingplaces: "Polling Places",
     directions: "Directions",
     mydirections: "My Directions",
@@ -21,7 +21,7 @@ var translations = {
     welcome: "Welcome to Boston's Polling Places Map",
     enteraddress: "Enter your home address to find your polling place"
   },
-  "^es*": {
+  "^(es)": {
     pollingplaces: "Centros de Votación",
     directions: "Cómo Llegar",
     mydirections: "Mi Ruta para llegar",
@@ -38,7 +38,7 @@ var translations = {
     welcome: "Bienvenidos al Mapa de Centros de Votación de Boston",
     enteraddress: "Ingrese su dirección para encontrar su centro de votación"
   },
-  "^de*": {
+  "^(de)": {
     pollingplaces: "Wahllokale",
     directions: "Route",
     mydirections: "Meine Route",
@@ -72,7 +72,7 @@ var translations = {
     welcome: "歡迎瀏覽波士頓投票站地圖",
     enteraddress: "為方便找您的投票站，請輸入您的家庭住址"
   },
-  "^vi*": {
+  "^(vi)": {
     pollingplaces: "Địa điểm bỏ phiếu",
     directions: "Lối đi",
     mydirections: "Lối đi của tôi",
@@ -89,7 +89,7 @@ var translations = {
     welcome: "Chào mừng quý vị đến bản đồ địa điểm bỏ phiếu của TP Boston",
     enteraddress: "Nhập địa chỉ nhà của quý vị tìm địa điểm bỏ phiếu của quý vị"
   },
-  "^ht*": {
+  "^(ht)": {
     pollingplaces: "Biwo Vòte",
     directions: "Direksyon",
     mydirections: "Direksyon m '",
