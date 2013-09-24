@@ -19,7 +19,8 @@ var translations = {
     feedback: "Send Feedback",
     restart: "Restart Search",
     welcome: "Welcome to Boston's Polling Places Map",
-    enteraddress: "Enter your home address to find your polling place"
+    enteraddress: "Enter your home address to find your polling place",
+    googlemaps: "en"
   },
   "^(es)": {
     pollingplaces: "Centros de Votación",
@@ -36,7 +37,8 @@ var translations = {
     feedback: "Envíar Comentarios",
     restart: "Reiniciar Búsqueda",
     welcome: "Bienvenidos al Mapa de Centros de Votación de Boston",
-    enteraddress: "Ingrese su dirección para encontrar su centro de votación"
+    enteraddress: "Ingrese su dirección para encontrar su centro de votación",
+    googlemaps: "es"
   },
   "^(de)": {
     pollingplaces: "Wahllokale",
@@ -53,7 +55,8 @@ var translations = {
     feedback: "Feedback senden",
     restart: "Erneut suchen",
     welcome: "Willkommen zu Bostons Wahllokal-Karte",
-    enteraddress: "Geben Sie Ihre Adresse ein, um Ihr Wahllokal zu finden"
+    enteraddress: "Geben Sie Ihre Adresse ein, um Ihr Wahllokal zu finden",
+    googlemaps: "de"
   },
   "^(cn|zh)": {
     pollingplaces: "投票站",
@@ -70,7 +73,8 @@ var translations = {
     feedback: "分享意見",
     restart: "重新搜索",
     welcome: "歡迎瀏覽波士頓投票站地圖",
-    enteraddress: "為方便找您的投票站，請輸入您的家庭住址"
+    enteraddress: "為方便找您的投票站，請輸入您的家庭住址",
+    googlemaps: "zh-TW"
   },
   "^(vi)": {
     pollingplaces: "Địa điểm bỏ phiếu",
@@ -87,7 +91,8 @@ var translations = {
     feedback: "Cho ý kiến",
     restart: "Khởi động lại",
     welcome: "Chào mừng quý vị đến bản đồ địa điểm bỏ phiếu của TP Boston",
-    enteraddress: "Nhập địa chỉ nhà của quý vị tìm địa điểm bỏ phiếu của quý vị"
+    enteraddress: "Nhập địa chỉ nhà của quý vị tìm địa điểm bỏ phiếu của quý vị",
+    googlemaps: "vi"
   },
   "^(ht)": {
     pollingplaces: "Biwo Vòte",
@@ -104,24 +109,28 @@ var translations = {
     feedback: "Voye Fidbak",
     restart: "Rekòmanse Rechèch",
     welcome: "Byenveni nan biwo vòte nan Boston kat jeyografik",
-    enteraddress: "Ekri adrès lakay ou pou jwenn biwo vòte ou an"
+    enteraddress: "Ekri adrès lakay ou pou jwenn biwo vòte ou an",
+    googlemaps: "fr"
   }
 };
 
-$(document).ready(function(){
-  var userLang = getURLVar("lang") || window.navigator.userLanguage || window.navigator.language;
-  if(userLang){
-    userLang = userLang.toLowerCase();
-    for(var lang in translations){
-      var langreg = new RegExp(lang);
-      if(langreg.test(userLang)){
+var userLang = getURLVar("lang") || window.navigator.userLanguage || window.navigator.language;
+if(userLang){
+  userLang = userLang.toLowerCase();
+  for(var lang in translations){
+    var langreg = new RegExp(lang);
+    if(langreg.test(userLang)){
+      if(getURLVar("lang") && translations[lang]["googlemaps"]){
+        $("#mapsscript")[0].src = "http://maps.googleapis.com/maps/api/js?sensor=false&language=" + translations[lang]["googlemaps"];
+      }
+      $(document).ready(function(){
         for(var label in translations[lang]){
           $(".label_" + label).text( translations[lang][label] );
         }
-        break;
-      }
+      });
+      break;
     }
   }
-});
+}
 
 function getURLVar(nm){nm=nm.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");var rxS="[\\?&]"+nm+"=([^&#]*)";var rx=new RegExp(rxS);var rs=rx.exec(window.location.href.toLowerCase());if(!rs){return null;}else{return rs[1];}}
