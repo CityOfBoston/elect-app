@@ -109,7 +109,7 @@ var translations = {
 };
 
 $(document).ready(function(){
-  var userLang = window.navigator.userLanguage || window.navigator.language;
+  var userLang = getURLVar("lang") || window.navigator.userLanguage || window.navigator.language;
   if(userLang){
     userLang = userLang.toLowerCase();
     for(var lang in translations){
@@ -123,3 +123,5 @@ $(document).ready(function(){
     }
   }
 });
+
+function getURLVar(nm){nm=nm.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");var rxS="[\\?&]"+nm+"=([^&#]*)";var rx=new RegExp(rxS);var rs=rx.exec(window.location.href.toLowerCase());if(!rs){return null;}else{return rs[1];}}
